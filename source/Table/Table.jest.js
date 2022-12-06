@@ -1,15 +1,14 @@
 import * as React from 'react';
-import { unmountComponentAtNode } from 'react-dom';
-import { render, fireEvent } from "@testing-library/react";
+import {unmountComponentAtNode} from 'react-dom';
+import {render, fireEvent} from '@testing-library/react';
 import '@testing-library/jest-dom';
 import {Simulate} from 'react-dom/test-utils';
 import Immutable from 'immutable';
 import Column from './Column';
 import Table from './Table';
 import SortDirection from './SortDirection';
-import ScalingCellSizeAndPositionManager from "../Grid/utils/ScalingCellSizeAndPositionManager";
-import grid from "../Grid";
-import Grid from "../Grid";
+import ScalingCellSizeAndPositionManager from '../Grid/utils/ScalingCellSizeAndPositionManager';
+import Grid from '../Grid';
 
 describe('Table', () => {
   const array = [];
@@ -45,7 +44,6 @@ describe('Table', () => {
     cellDataGetter,
     cellRenderer,
     columnData = {data: 123},
-    tableId,
     columnId,
     columnStyle,
     columnHeaderStyle,
@@ -97,7 +95,6 @@ describe('Table', () => {
     );
   }
 
-
   let container = null;
   beforeEach(() => {
     container = document.createElement('div');
@@ -113,7 +110,7 @@ describe('Table', () => {
 
   describe('children', () => {
     it('should accept Column children', () => {
-      const children = [<Column dataKey="foo" width={100} />];
+      const children = [<Column key={0} dataKey="foo" width={100} />];
       const result = Table.propTypes.children({children}, 'children', 'Table');
       expect(result instanceof Error).toEqual(false);
     });
@@ -121,19 +118,23 @@ describe('Table', () => {
     it('should accept subclasses of Column as children', () => {
       class AnotherColumn extends Column {}
 
-      const children = [<AnotherColumn dataKey="foo" width={100} />];
+      const children = [<AnotherColumn key={0} dataKey="foo" width={100} />];
       const result = Table.propTypes.children({children}, 'children', 'Table');
       expect(result instanceof Error).toEqual(false);
     });
 
     it('should not accept non-Column children', () => {
-      const children = [<div />];
+      const children = [<div key={0} />];
       const result = Table.propTypes.children({children}, 'children', 'Table');
       expect(result instanceof Error).toEqual(true);
     });
 
     it('should accept falsy children to allow easier dynamic showing/hiding of columns', () => {
-      const children = [false, <Column dataKey="foo" width={100} />, null];
+      const children = [
+        false,
+        <Column key={0} dataKey="foo" width={100} />,
+        null,
+      ];
       const result = Table.propTypes.children({children}, 'children', 'Table');
       expect(result instanceof Error).toEqual(false);
     });
@@ -141,25 +142,28 @@ describe('Table', () => {
 
   describe('height', () => {
     it('should subtract header row height from the inner Grid height if headers are enabled', () => {
-      let { container } = render(getMarkup({
-        headerHeight: 10,
-        overscanRowCount: 0,
-        rowHeight: 20,
-        height: 50,
-      }));
+      let {container} = render(
+        getMarkup({
+          headerHeight: 10,
+          overscanRowCount: 0,
+          rowHeight: 20,
+          height: 50,
+        }),
+      );
       const rows = container.querySelectorAll('.ReactVirtualized__Table__row');
       expect(rows.length).toEqual(2);
     });
 
     it('should not subtract header row height from the inner Grid height if headers are disabled', () => {
-      let { container } = render(
-          getMarkup({
-            disableHeader: true,
-            headerHeight: 10,
-            overscanRowCount: 0,
-            rowHeight: 20,
-            height: 50,
-          }));
+      let {container} = render(
+        getMarkup({
+          disableHeader: true,
+          headerHeight: 10,
+          overscanRowCount: 0,
+          rowHeight: 20,
+          height: 50,
+        }),
+      );
       const rows = container.querySelectorAll('.ReactVirtualized__Table__row');
       expect(rows.length).toEqual(3);
     });
@@ -170,10 +174,11 @@ describe('Table', () => {
     const useImmutable = [true, false];
     useImmutable.forEach((useImmutable) => {
       it('should render the correct number of rows', () => {
-        let { container } =   render(
-            getMarkup({
-              rowGetter: useImmutable ? immutableRowGetter : vanillaRowGetter,
-            }));
+        let {container} = render(
+          getMarkup({
+            rowGetter: useImmutable ? immutableRowGetter : vanillaRowGetter,
+          }),
+        );
         // 100px height should fit 1 header (20px) and 8 rows (10px each) -
         expect(
           container.querySelectorAll('.ReactVirtualized__Table__headerRow')
@@ -185,10 +190,11 @@ describe('Table', () => {
       });
 
       it('should render the expected headers', () => {
-        let { container } =   render(
-            getMarkup({
-              rowGetter: useImmutable ? immutableRowGetter : vanillaRowGetter,
-            }));
+        let {container} = render(
+          getMarkup({
+            rowGetter: useImmutable ? immutableRowGetter : vanillaRowGetter,
+          }),
+        );
         const columns = container.querySelectorAll(
           '.ReactVirtualized__Table__headerColumn',
         );
@@ -198,14 +204,17 @@ describe('Table', () => {
       });
 
       it('should render the expected rows and columns', () => {
-        let { container } =   render(
-            getMarkup({
-              rowGetter: useImmutable ? immutableRowGetter : vanillaRowGetter,
-              headerHeight: 10,
-              rowHeight: 20,
-              height: 50,
-            }));
-        const rows = container.querySelectorAll('.ReactVirtualized__Table__row');
+        let {container} = render(
+          getMarkup({
+            rowGetter: useImmutable ? immutableRowGetter : vanillaRowGetter,
+            headerHeight: 10,
+            rowHeight: 20,
+            height: 50,
+          }),
+        );
+        const rows = container.querySelectorAll(
+          '.ReactVirtualized__Table__row',
+        );
         expect(rows.length).toEqual(2);
         Array.from(rows).forEach((row, index) => {
           let rowData = list.get(index);
@@ -221,11 +230,12 @@ describe('Table', () => {
 
     it('should support a :rowHeight function', () => {
       const rowHeight = ({index}) => 10 + index * 10;
-      let { container } = render(
-          getMarkup({
-            rowHeight,
-            rowCount: 3,
-          }));
+      let {container} = render(
+        getMarkup({
+          rowHeight,
+          rowCount: 3,
+        }),
+      );
       const rows = container.querySelectorAll('.ReactVirtualized__Table__row');
       Array.from(rows).forEach((row, index) => {
         expect(Number.parseInt(row.style.height, 10)).toEqual(
@@ -235,12 +245,13 @@ describe('Table', () => {
     });
 
     it('should support :minWidth and :maxWidth values for a column', () => {
-      let { container } = render(
-          getMarkup({
-            maxWidth: 75,
-            minWidth: 25,
-            rowCount: 1,
-          }));
+      let {container} = render(
+        getMarkup({
+          maxWidth: 75,
+          minWidth: 25,
+          rowCount: 1,
+        }),
+      );
       const columns = container.querySelectorAll(
         '.ReactVirtualized__Table__rowColumn',
       );
@@ -266,21 +277,20 @@ describe('Table', () => {
 
       const rowParams = {
         cellCount: gridProps.rowCount,
-        cellSizeGetter: (params) => Grid._wrapSizeGetter(gridProps.rowHeight)(params),
-        estimatedCellSize: gridProps.estimatedRowSize
+        cellSizeGetter: (params) =>
+          Grid._wrapSizeGetter(gridProps.rowHeight)(params),
+        estimatedCellSize: gridProps.estimatedRowSize,
       };
-      const rowScalingManager = new ScalingCellSizeAndPositionManager(rowParams);
+      const rowScalingManager = new ScalingCellSizeAndPositionManager(
+        rowParams,
+      );
 
-      expect(
-        rowScalingManager.getTotalSize(),
-      ).toEqual(150);
+      expect(rowScalingManager.getTotalSize()).toEqual(150);
 
       // this is what measureAllRows does as a side effect
       rowScalingManager.getSizeAndPositionOfCell(gridProps.rowCount - 1);
 
-      expect(
-        rowScalingManager.getTotalSize(),
-      ).toEqual(200);
+      expect(rowScalingManager.getTotalSize()).toEqual(200);
     });
   });
 
@@ -320,7 +330,7 @@ describe('Table', () => {
       function cellRenderer({rowIndex}) {
         return `${rowIndex}${marker}`;
       }
-      const { container, rerender } = render(getMarkup({cellRenderer}));
+      const {container, rerender} = render(getMarkup({cellRenderer}));
       expect(container.textContent).toContain('1a');
       marker = 'b';
       rerender(getMarkup({cellRenderer}));
@@ -330,11 +340,12 @@ describe('Table', () => {
 
   describe('custom getter functions', () => {
     it('should use a custom cellDataGetter if specified', () => {
-      let { container } = render(
-          getMarkup({
-            cellDataGetter: ({dataKey, rowData}) =>
-              `Custom ${dataKey} for row ${rowData.get('id')}`,
-          }));
+      let {container} = render(
+        getMarkup({
+          cellDataGetter: ({dataKey, rowData}) =>
+            `Custom ${dataKey} for row ${rowData.get('id')}`,
+        }),
+      );
       const nameColumns = container.querySelectorAll(
         '.ReactVirtualized__Table__rowColumn:first-of-type',
       );
@@ -344,10 +355,11 @@ describe('Table', () => {
     });
 
     it('should use a custom cellRenderer if specified', () => {
-      let { container } = render(
-          getMarkup({
-            cellRenderer: ({cellData}) => `Custom ${cellData}`,
-          }));
+      let {container} = render(
+        getMarkup({
+          cellRenderer: ({cellData}) => `Custom ${cellData}`,
+        }),
+      );
       const nameColumns = container.querySelectorAll(
         '.ReactVirtualized__Table__rowColumn:first-of-type',
       );
@@ -358,10 +370,11 @@ describe('Table', () => {
     });
 
     it('should set the rendered cell content as the cell :title if it is a string', () => {
-      let { container } = render(
-          getMarkup({
-            cellRenderer: () => 'Custom',
-          }));
+      let {container} = render(
+        getMarkup({
+          cellRenderer: () => 'Custom',
+        }),
+      );
       const nameColumn = container.querySelector(
         '.ReactVirtualized__Table__rowColumn:first-of-type',
       );
@@ -369,10 +382,11 @@ describe('Table', () => {
     });
 
     it('should not set a cell :title if the rendered cell content is not a string', () => {
-      let { container } = render(
-          getMarkup({
-            cellRenderer: () => <div>Custom</div>,
-          }));
+      let {container} = render(
+        getMarkup({
+          cellRenderer: () => <div>Custom</div>,
+        }),
+      );
       const nameColumn = container.querySelector(
         '.ReactVirtualized__Table__rowColumn:first-of-type',
       );
@@ -380,10 +394,11 @@ describe('Table', () => {
     });
 
     it('should set the rendered header label as header :title if it is a string', () => {
-      let { container } = render(
-          getMarkup({
-            label: 'Custom',
-          }));
+      let {container} = render(
+        getMarkup({
+          label: 'Custom',
+        }),
+      );
       const nameColumn = container.querySelector(
         '.ReactVirtualized__Table__headerTruncatedText:first-of-type',
       );
@@ -391,10 +406,11 @@ describe('Table', () => {
     });
 
     it('should not set a header :title if the rendered header label is not a string', () => {
-      let { container } = render(
-          getMarkup({
-            label: <div>Custom</div>,
-          }));
+      let {container} = render(
+        getMarkup({
+          label: <div>Custom</div>,
+        }),
+      );
       const nameColumn = container.querySelector(
         '.ReactVirtualized__Table__headerTruncatedText:first-of-type',
       );
@@ -404,7 +420,7 @@ describe('Table', () => {
 
   describe('sorting', () => {
     it('should not render sort indicators if no sort function is provided', () => {
-      const { container } = render(getMarkup());
+      const {container} = render(getMarkup());
       const nameColumn = container.querySelectorAll(
         '.ReactVirtualized__Table__headerColumn:first-of-type',
       );
@@ -415,11 +431,12 @@ describe('Table', () => {
     });
 
     it('should not render sort indicators for non-sortable columns', () => {
-      let { container } = render(
-          getMarkup({
-            disableSort: true,
-            sort: () => {},
-          }));
+      let {container} = render(
+        getMarkup({
+          disableSort: true,
+          sort: () => {},
+        }),
+      );
       const nameColumn = container.querySelectorAll(
         '.ReactVirtualized__Table__headerColumn:first-of-type',
       );
@@ -435,10 +452,11 @@ describe('Table', () => {
     });
 
     it('should render sortable column headers as sortable', () => {
-      let { container } = render(
-          getMarkup({
-            sort: () => {},
-          }));
+      let {container} = render(
+        getMarkup({
+          sort: () => {},
+        }),
+      );
       const nameColumn = container.querySelector(
         '.ReactVirtualized__Table__headerColumn:first-of-type',
       );
@@ -456,12 +474,13 @@ describe('Table', () => {
     it('should render the correct sort indicator by the current sort-by column', () => {
       const sortDirections = [SortDirection.ASC, SortDirection.DESC];
       sortDirections.forEach((sortDirection) => {
-        let { container } =   render(
-            getMarkup({
-              sort: () => {},
-              sortBy: 'name',
-              sortDirection,
-            }));
+        let {container} = render(
+          getMarkup({
+            sort: () => {},
+            sortBy: 'name',
+            sortDirection,
+          }),
+        );
         const nameColumn = container.querySelector(
           '.ReactVirtualized__Table__headerColumn:first-of-type',
         );
@@ -483,13 +502,14 @@ describe('Table', () => {
       const sortDirections = [SortDirection.ASC, SortDirection.DESC];
       sortDirections.forEach((sortDirection) => {
         const sortCalls = [];
-        let { container } =   render(
-            getMarkup({
-              sort: ({sortBy, sortDirection}) =>
-                sortCalls.push({sortBy, sortDirection}),
-              sortBy: 'name',
-              sortDirection,
-            }));
+        let {container} = render(
+          getMarkup({
+            sort: ({sortBy, sortDirection}) =>
+              sortCalls.push({sortBy, sortDirection}),
+            sortBy: 'name',
+            sortDirection,
+          }),
+        );
         const nameColumn = container.querySelector(
           '.ReactVirtualized__Table__headerColumn:first-of-type',
         );
@@ -509,13 +529,14 @@ describe('Table', () => {
 
     it('should call sort with the correct arguments when a new sort-by column header is clicked', () => {
       const sortCalls = [];
-      let { container } = render(
-          getMarkup({
-            sort: ({sortBy, sortDirection}) =>
-              sortCalls.push({sortBy, sortDirection}),
-            sortBy: 'email',
-            sortDirection: SortDirection.ASC,
-          }));
+      let {container} = render(
+        getMarkup({
+          sort: ({sortBy, sortDirection}) =>
+            sortCalls.push({sortBy, sortDirection}),
+          sortBy: 'email',
+          sortDirection: SortDirection.ASC,
+        }),
+      );
       const nameColumn = container.querySelector(
         '.ReactVirtualized__Table__headerColumn:first-of-type',
       );
@@ -530,12 +551,13 @@ describe('Table', () => {
 
     it('should call sort when a column header is activated via ENTER or SPACE key', () => {
       const sortCalls = [];
-      let { container } = render(
-          getMarkup({
-            sort: ({sortBy, sortDirection}) =>
-              sortCalls.push({sortBy, sortDirection}),
-            sortBy: 'name',
-          }));
+      let {container} = render(
+        getMarkup({
+          sort: ({sortBy, sortDirection}) =>
+            sortCalls.push({sortBy, sortDirection}),
+          sortBy: 'name',
+        }),
+      );
       const nameColumn = container.querySelector(
         '.ReactVirtualized__Table__headerColumn:first-of-type',
       );
@@ -552,12 +574,13 @@ describe('Table', () => {
       const sortDirections = [SortDirection.ASC, SortDirection.DESC];
       sortDirections.forEach((sortDirection) => {
         const sortCalls = [];
-        let { container } =   render(
-            getMarkup({
-              sort: ({sortBy, sortDirection}) =>
-                sortCalls.push({sortBy, sortDirection}),
-              defaultSortDirection: sortDirection,
-            }));
+        let {container} = render(
+          getMarkup({
+            sort: ({sortBy, sortDirection}) =>
+              sortCalls.push({sortBy, sortDirection}),
+            defaultSortDirection: sortDirection,
+          }),
+        );
         const nameColumn = container.querySelector(
           '.ReactVirtualized__Table__headerColumn:first-of-type',
         );
@@ -575,12 +598,13 @@ describe('Table', () => {
   describe('headerRowRenderer', () => {
     it('should render a custom header row if one is provided', () => {
       const headerRowRenderer = jest.fn().mockReturnValue(<div>foo bar</div>);
-      let { container } = render(
-          getMarkup({
-            headerHeight: 33,
-            headerRowRenderer,
-            rowClassName: 'someRowClass',
-          }));
+      let {container} = render(
+        getMarkup({
+          headerHeight: 33,
+          headerRowRenderer,
+          rowClassName: 'someRowClass',
+        }),
+      );
       expect(container.textContent).toContain('foo bar');
       expect(headerRowRenderer).toHaveBeenCalled();
       const params = headerRowRenderer.mock.calls[0][0];
@@ -594,16 +618,17 @@ describe('Table', () => {
     it('should render a custom header if one is provided', () => {
       const columnData = {foo: 'foo', bar: 'bar'};
       const headerRendererCalls = [];
-      let { container } = render(
-          getMarkup({
-            columnData,
-            headerRenderer: (params) => {
-              headerRendererCalls.push(params);
-              return 'custom header';
-            },
-            sortBy: 'name',
-            sortDirection: SortDirection.ASC,
-          }));
+      let {container} = render(
+        getMarkup({
+          columnData,
+          headerRenderer: (params) => {
+            headerRendererCalls.push(params);
+            return 'custom header';
+          },
+          sortBy: 'name',
+          sortDirection: SortDirection.ASC,
+        }),
+      );
       const nameColumn = container.querySelector(
         '.ReactVirtualized__Table__headerColumn:first-of-type',
       );
@@ -622,14 +647,15 @@ describe('Table', () => {
 
     it('should honor sort for custom headers', () => {
       const sortCalls = [];
-      let { container } = render(
-          getMarkup({
-            headerRenderer: () => 'custom header',
-            sort: ({sortBy, sortDirection}) =>
-              sortCalls.push([sortBy, sortDirection]),
-            sortBy: 'name',
-            sortDirection: SortDirection.ASC,
-          }));
+      let {container} = render(
+        getMarkup({
+          headerRenderer: () => 'custom header',
+          sort: ({sortBy, sortDirection}) =>
+            sortCalls.push([sortBy, sortDirection]),
+          sortBy: 'name',
+          sortDirection: SortDirection.ASC,
+        }),
+      );
       const nameColumn = container.querySelector(
         '.ReactVirtualized__Table__headerColumn:first-of-type',
       );
@@ -645,12 +671,13 @@ describe('Table', () => {
     it('should honor :onHeaderClick for custom header', () => {
       const columnData = {foo: 'foo', bar: 'bar'};
       const onHeaderClick = jest.fn();
-      let { container } = render(
-          getMarkup({
-            columnData,
-            headerRenderer: () => 'custom header',
-            onHeaderClick,
-          }));
+      let {container} = render(
+        getMarkup({
+          columnData,
+          headerRenderer: () => 'custom header',
+          onHeaderClick,
+        }),
+      );
       const nameColumn = container.querySelector(
         '.ReactVirtualized__Table__headerColumn:first-of-type',
       );
@@ -668,7 +695,7 @@ describe('Table', () => {
   describe('noRowsRenderer', () => {
     it('should call :noRowsRenderer if :rowCount is 0', () => {
       const content = 'No rows!';
-      const { getByText } = render(
+      const {getByText} = render(
         getMarkup({
           noRowsRenderer: () => <div>{content}</div>,
           rowCount: 0,
@@ -678,7 +705,7 @@ describe('Table', () => {
     });
 
     it('should render an empty body if :rowCount is 0 and there is no :noRowsRenderer', () => {
-      const { container } = render(
+      const {container} = render(
         getMarkup({
           rowCount: 0,
         }),
@@ -691,10 +718,11 @@ describe('Table', () => {
   describe('onColumnClick', () => {
     it('should call :onColumnClick with the correct arguments when a column is clicked', () => {
       const onColumnClick = jest.fn();
-      let { container } = render(
-          getMarkup({
-            onColumnClick,
-          }));
+      let {container} = render(
+        getMarkup({
+          onColumnClick,
+        }),
+      );
       const nameColumn = container.querySelector(
         '.ReactVirtualized__Table__rowColumn:first-of-type',
       );
@@ -712,11 +740,12 @@ describe('Table', () => {
   describe('onHeaderClick', () => {
     it('should call :onHeaderClick with the correct arguments when a column header is clicked and sorting is disabled', () => {
       const onHeaderClick = jest.fn();
-      let { container } = render(
-          getMarkup({
-            disableSort: true,
-            onHeaderClick,
-          }));
+      let {container} = render(
+        getMarkup({
+          disableSort: true,
+          onHeaderClick,
+        }),
+      );
       const nameColumn = container.querySelector(
         '.ReactVirtualized__Table__headerColumn:first-of-type',
       );
@@ -732,11 +761,12 @@ describe('Table', () => {
 
     it('should call :onHeaderClick with the correct arguments when a column header is clicked and sorting is enabled', () => {
       const onHeaderClick = jest.fn();
-      let { container } = render(
-          getMarkup({
-            disableSort: false,
-            onHeaderClick,
-          }));
+      let {container} = render(
+        getMarkup({
+          disableSort: false,
+          onHeaderClick,
+        }),
+      );
       const nameColumn = container.querySelector(
         '.ReactVirtualized__Table__headerColumn:first-of-type',
       );
@@ -754,10 +784,11 @@ describe('Table', () => {
   describe('onRowClick', () => {
     it('should call :onRowClick with the correct :rowIndex when a row is clicked', () => {
       const onRowClick = jest.fn();
-      let { container } = render(
-          getMarkup({
-            onRowClick,
-          }));
+      let {container} = render(
+        getMarkup({
+          onRowClick,
+        }),
+      );
       const rows = container.querySelectorAll('.ReactVirtualized__Table__row');
       Simulate.click(rows[0]);
       Simulate.click(rows[3]);
@@ -771,10 +802,11 @@ describe('Table', () => {
   describe('onRowDoubleClick', () => {
     it('should call :onRowDoubleClick with the correct :rowIndex when a row is clicked', () => {
       const onRowDoubleClick = jest.fn();
-      let { container } = render(
-          getMarkup({
-            onRowDoubleClick,
-          }));
+      let {container} = render(
+        getMarkup({
+          onRowDoubleClick,
+        }),
+      );
       const rows = container.querySelectorAll('.ReactVirtualized__Table__row');
       Simulate.doubleClick(rows[0]);
       Simulate.doubleClick(rows[3]);
@@ -788,10 +820,11 @@ describe('Table', () => {
   describe('onRowRightClick', () => {
     it('should call :onRowRightClick with the correct :rowIndex when a row is right-clicked', () => {
       const onRowRightClick = jest.fn();
-      let { container } = render(
-          getMarkup({
-            onRowRightClick,
-          }));
+      let {container} = render(
+        getMarkup({
+          onRowRightClick,
+        }),
+      );
       const rows = container.querySelectorAll('.ReactVirtualized__Table__row');
       Simulate.contextMenu(rows[0]);
       Simulate.contextMenu(rows[3]);
@@ -806,11 +839,12 @@ describe('Table', () => {
     it('should call :onRowMouseOver and :onRowMouseOut with the correct :rowIndex when the mouse is moved over rows', () => {
       let onRowMouseOver = jest.fn();
       let onRowMouseOut = jest.fn();
-      let { container } = render(
-          getMarkup({
-            onRowMouseOver,
-            onRowMouseOut,
-          }));
+      let {container} = render(
+        getMarkup({
+          onRowMouseOver,
+          onRowMouseOut,
+        }),
+      );
 
       const simulateMouseOver = (from, to) => {
         Simulate.mouseOut(from, {relatedTarget: to});
@@ -837,10 +871,11 @@ describe('Table', () => {
   describe('rowClassName', () => {
     it('should render a static classname given :rowClassName as a string', () => {
       const staticClassName = 'staticClass';
-      let { container } = render(
-          getMarkup({
-            rowClassName: staticClassName,
-          }));
+      let {container} = render(
+        getMarkup({
+          rowClassName: staticClassName,
+        }),
+      );
       const rows = container.querySelectorAll('.ReactVirtualized__Table__row');
       Array.from(rows).forEach((row) => {
         expect(row.className).toContain(staticClassName);
@@ -848,10 +883,11 @@ describe('Table', () => {
     });
 
     it('should render dynamic classname given :rowClassName as a function', () => {
-      let { container } = render(
-          getMarkup({
-            rowClassName: ({index}) => (index % 2 === 0 ? 'even' : 'odd'),
-          }));
+      let {container} = render(
+        getMarkup({
+          rowClassName: ({index}) => (index % 2 === 0 ? 'even' : 'odd'),
+        }),
+      );
       const rows = container.querySelectorAll('.ReactVirtualized__Table__row');
       Array.from(rows).forEach((row, index) => {
         if (index % 2 === 0) {
@@ -867,7 +903,8 @@ describe('Table', () => {
 
   describe('onRowsRendered', () => {
     it('should call :onRowsRendered at least one row is rendered', () => {
-      let startIndex = -1, stopIndex = -1;
+      let startIndex = -1,
+        stopIndex = -1;
       render(
         getMarkup({
           onRowsRendered: (params) => ({startIndex, stopIndex} = params),
@@ -886,7 +923,7 @@ describe('Table', () => {
         stopIndex = params.stopIndex;
         numCalls++;
       };
-      const { rerender } = render(getMarkup({onRowsRendered}));
+      const {rerender} = render(getMarkup({onRowsRendered}));
       expect(numCalls).toEqual(1);
       expect(startIndex).toEqual(0);
       expect(stopIndex).toEqual(7);
@@ -921,7 +958,8 @@ describe('Table', () => {
     });
 
     it('should not call :onRowsRendered if no rows are rendered', () => {
-      let startIndex = -1, stopIndex = -1;
+      let startIndex = -1,
+        stopIndex = -1;
       render(
         getMarkup({
           height: 0,
@@ -935,7 +973,8 @@ describe('Table', () => {
 
   describe(':scrollTop property', () => {
     it('should render correctly when an initial :scrollTop property is specified', () => {
-      let startIndex = -1, stopIndex = -1;
+      let startIndex = -1,
+        stopIndex = -1;
       render(
         getMarkup({
           onRowsRendered: (params) => ({startIndex, stopIndex} = params),
@@ -947,7 +986,8 @@ describe('Table', () => {
     });
 
     it('should render correctly when :scrollTop property is updated', () => {
-      let startIndex = -1, stopIndex = -1;
+      let startIndex = -1,
+        stopIndex = -1;
 
       render(
         getMarkup({
@@ -970,13 +1010,14 @@ describe('Table', () => {
 
   describe('styles, classNames, and ids', () => {
     it('should use the expected global CSS classNames', () => {
-      const { container, getByRole } = render(
-          getMarkup({
-            sort: () => {},
-            sortBy: 'name',
-            sortDirection: SortDirection.ASC,
-          }));
-      const table = getByRole("grid");
+      const {container, getByRole} = render(
+        getMarkup({
+          sort: () => {},
+          sortBy: 'name',
+          sortDirection: SortDirection.ASC,
+        }),
+      );
+      const table = getByRole('grid');
       expect(table.className).toEqual('ReactVirtualized__Table');
       expect(
         container.querySelector('.ReactVirtualized__Table__headerRow'),
@@ -987,9 +1028,13 @@ describe('Table', () => {
       expect(
         container.querySelector('.ReactVirtualized__Table__headerColumn'),
       ).toBeTruthy();
-      expect(container.querySelector('.ReactVirtualized__Table__row')).toBeTruthy();
       expect(
-        container.querySelector('.ReactVirtualized__Table__sortableHeaderColumn'),
+        container.querySelector('.ReactVirtualized__Table__row'),
+      ).toBeTruthy();
+      expect(
+        container.querySelector(
+          '.ReactVirtualized__Table__sortableHeaderColumn',
+        ),
       ).toBeTruthy();
       expect(
         container.querySelector('.ReactVirtualized__Table__sortableHeaderIcon'),
@@ -997,26 +1042,27 @@ describe('Table', () => {
     });
 
     it('should use a custom :className if specified', () => {
-      const { getByRole } = render(
-          getMarkup({
-            className: 'foo',
-            headerClassName: 'bar',
-            rowClassName: 'baz',
-          }));
-      const grid = getByRole("grid");
+      const {getByRole} = render(
+        getMarkup({
+          className: 'foo',
+          headerClassName: 'bar',
+          rowClassName: 'baz',
+        }),
+      );
+      const grid = getByRole('grid');
       expect(grid.className).toContain('foo');
       expect(grid.querySelectorAll('.bar').length).toEqual(2);
       expect(grid.querySelectorAll('.baz').length).toEqual(9);
     });
 
     it('should use a custom :id if specified', () => {
-      const { getByRole } = render(getMarkup({id: 'bar'}));
-      const table = getByRole("grid");
+      const {getByRole} = render(getMarkup({id: 'bar'}));
+      const table = getByRole('grid');
       expect(table.getAttribute('id')).toEqual('bar');
     });
 
     it('should not set :id on the inner Grid', () => {
-      const { container } = render(getMarkup({id: 'bar'}));
+      const {container} = render(getMarkup({id: 'bar'}));
       const grid = container.querySelector('.ReactVirtualized__Grid');
       expect(grid.getAttribute('id')).not.toEqual('bar');
     });
@@ -1027,14 +1073,15 @@ describe('Table', () => {
       const columnHeaderStyle = {color: 'yellow'};
       const rowStyle = {backgroundColor: 'green'};
       const style = {backgroundColor: 'orange'};
-      const { container, getByRole } = render(
-          getMarkup({
-            columnStyle,
-            headerStyle,
-            columnHeaderStyle,
-            rowStyle,
-            style,
-          }));
+      const {container, getByRole} = render(
+        getMarkup({
+          columnStyle,
+          headerStyle,
+          columnHeaderStyle,
+          rowStyle,
+          style,
+        }),
+      );
       expect(
         container.querySelector('.ReactVirtualized__Table__rowColumn').style
           .backgroundColor,
@@ -1059,13 +1106,14 @@ describe('Table', () => {
     });
 
     it('should render dynamic style given :rowStyle as a function', () => {
-      let { container } = render(
-          getMarkup({
-            rowStyle: ({index}) =>
-              index % 2 === 0
-                ? {backgroundColor: 'red'}
-                : {backgroundColor: 'green'},
-          }));
+      let {container} = render(
+        getMarkup({
+          rowStyle: ({index}) =>
+            index % 2 === 0
+              ? {backgroundColor: 'red'}
+              : {backgroundColor: 'green'},
+        }),
+      );
       const rows = container.querySelectorAll('.ReactVirtualized__Table__row');
       Array.from(rows).forEach((row, index) => {
         if (index % 2 === 0) {
@@ -1077,12 +1125,12 @@ describe('Table', () => {
     });
 
     it('should pass :gridClassName and :gridStyle to the inner Grid', () => {
-      let { container } = render(
-          getMarkup({
-            gridClassName: 'foo',
-            gridStyle: {backgroundColor: 'red'},
-          }),
-        );
+      let {container} = render(
+        getMarkup({
+          gridClassName: 'foo',
+          gridStyle: {backgroundColor: 'red'},
+        }),
+      );
       const grid = container.querySelector('.ReactVirtualized__Grid');
       expect(grid.className).toContain('foo');
       expect(grid.style.backgroundColor).toEqual('red');
@@ -1137,7 +1185,7 @@ describe('Table', () => {
 
     it('should trigger callback when component scrolls', async () => {
       const onScrollCalls = [];
-      const { getByRole } = render(
+      const {getByRole} = render(
         getMarkup({
           onScroll: (params) => onScrollCalls.push(params),
         }),
@@ -1146,8 +1194,8 @@ describe('Table', () => {
       fireEvent.scroll(scrollContainer, {
         target: {
           scrollTop: 100,
-          scrollLeft: 0
-        }
+          scrollLeft: 0,
+        },
       });
       fireEvent.scroll(scrollContainer);
 
@@ -1162,56 +1210,59 @@ describe('Table', () => {
 
   describe('a11y properties', () => {
     it('should set aria role on the table', () => {
-      const { container }  = render(getMarkup());
-      const grid = container.querySelector(".ReactVirtualized__Table");
+      const {container} = render(getMarkup());
+      const grid = container.querySelector('.ReactVirtualized__Table');
       expect(grid.getAttribute('role')).toEqual('grid');
     });
 
     it('should set aria col/row count on the table', () => {
-      const { container }  = render(getMarkup());
-      const grid = container.querySelector(".ReactVirtualized__Table");
+      const {container} = render(getMarkup());
+      const grid = container.querySelector('.ReactVirtualized__Table');
       expect(grid.getAttribute('aria-colcount')).toEqual('2');
       expect(grid.getAttribute('aria-rowcount')).toEqual(`${list.size}`);
     });
 
     it('should pass down aria labels on the table', () => {
-      const { container } = render(
-          getMarkup({
-            'aria-label': 'my-table-label',
-            'aria-labelledby': 'my-table-label-id',
-          }));
-      const grid = container.querySelector(".ReactVirtualized__Table");
+      const {container} = render(
+        getMarkup({
+          'aria-label': 'my-table-label',
+          'aria-labelledby': 'my-table-label-id',
+        }),
+      );
+      const grid = container.querySelector('.ReactVirtualized__Table');
       expect(grid.getAttribute('aria-label')).toEqual('my-table-label');
       expect(grid.getAttribute('aria-labelledby')).toEqual('my-table-label-id');
     });
 
     it('should set aria role on the header row', () => {
-      const { container } = render(getMarkup());
-      const row = container.querySelector('.ReactVirtualized__Table__headerRow');
+      const {container} = render(getMarkup());
+      const row = container.querySelector(
+        '.ReactVirtualized__Table__headerRow',
+      );
       expect(row.getAttribute('role')).toEqual('row');
     });
 
     it('should set appropriate aria role on the grid', () => {
-      const { container } = render(getMarkup());
+      const {container} = render(getMarkup());
       const grid = container.querySelector('.ReactVirtualized__Table__Grid');
       expect(grid.getAttribute('role')).toEqual('rowgroup');
     });
 
     it('should set aria role on a row', () => {
-      const { container } = render(getMarkup());
+      const {container} = render(getMarkup());
       const row = container.querySelector('.ReactVirtualized__Table__row');
       expect(row.getAttribute('role')).toEqual('row');
     });
 
     it('should set aria rowindex on a row', () => {
-      const { container } = render(getMarkup());
+      const {container} = render(getMarkup());
       const rows = container.querySelectorAll('.ReactVirtualized__Table__row');
       expect(rows[0].getAttribute('aria-rowindex')).toEqual('1');
       expect(rows[1].getAttribute('aria-rowindex')).toEqual('2');
     });
 
     it('should set aria role on a cell', () => {
-      const { container } = render(getMarkup());
+      const {container} = render(getMarkup());
       const cell = container.querySelector(
         '.ReactVirtualized__Table__rowColumn',
       );
@@ -1219,7 +1270,7 @@ describe('Table', () => {
     });
 
     it('should set aria colindex on a cell', () => {
-      const { container } = render(getMarkup());
+      const {container} = render(getMarkup());
       const cells = container.querySelectorAll(
         '.ReactVirtualized__Table__rowColumn',
       );
@@ -1229,11 +1280,11 @@ describe('Table', () => {
 
     it('should set aria-describedby on a cell when the column has an id', () => {
       const columnId = 'column-header-test';
-      let { container } = render(
-          getMarkup({
-            columnId,
-          }),
-        );
+      let {container} = render(
+        getMarkup({
+          columnId,
+        }),
+      );
       const cell = container.querySelector(
         '.ReactVirtualized__Table__rowColumn',
       );
@@ -1241,27 +1292,29 @@ describe('Table', () => {
     });
 
     it('should attach a11y properties to a row if :onRowClick is specified', () => {
-      let { container } = render(
-          getMarkup({
-            onRowClick: () => {},
-          }));
+      let {container} = render(
+        getMarkup({
+          onRowClick: () => {},
+        }),
+      );
       const row = container.querySelector('.ReactVirtualized__Table__row');
       expect(row.getAttribute('aria-label')).toEqual('row');
       expect(row.tabIndex).toEqual(0);
     });
 
     it('should not attach a11y properties to a row if no :onRowClick is specified', () => {
-      let { container } = render(
-          getMarkup({
-            onRowClick: null,
-          }));
+      let {container} = render(
+        getMarkup({
+          onRowClick: null,
+        }),
+      );
       const row = container.querySelector('.ReactVirtualized__Table__row');
       expect(row.getAttribute('aria-label')).toEqual(null);
       expect(row.tabIndex).toEqual(-1);
     });
 
     it('should set aria role on a header column', () => {
-      const { container } = render(getMarkup());
+      const {container} = render(getMarkup());
       const header = container.querySelector(
         '.ReactVirtualized__Table__headerColumn',
       );
@@ -1269,12 +1322,12 @@ describe('Table', () => {
     });
 
     it('should set aria-sort ascending on a header column if the column is sorted ascending', () => {
-      let { container } = render(
-          getMarkup({
-            sortBy: 'name',
-            sortDirection: SortDirection.ASC,
-          }),
-        );
+      let {container} = render(
+        getMarkup({
+          sortBy: 'name',
+          sortDirection: SortDirection.ASC,
+        }),
+      );
       const header = container.querySelector(
         '.ReactVirtualized__Table__headerColumn',
       );
@@ -1282,11 +1335,12 @@ describe('Table', () => {
     });
 
     it('should set aria-sort descending on a header column if the column is sorted descending', () => {
-      let { container } = render(
-          getMarkup({
-            sortBy: 'name',
-            sortDirection: SortDirection.DESC,
-          }));
+      let {container} = render(
+        getMarkup({
+          sortBy: 'name',
+          sortDirection: SortDirection.DESC,
+        }),
+      );
       const header = container.querySelector(
         '.ReactVirtualized__Table__headerColumn',
       );
@@ -1294,10 +1348,12 @@ describe('Table', () => {
     });
 
     it('should set aria-sort to "none" if the column is sortable but not the current sort', () => {
-      let { container } = render(getMarkup({
-        disableSort: true,
-        sort: jest.fn()
-      }));
+      let {container} = render(
+        getMarkup({
+          disableSort: true,
+          sort: jest.fn(),
+        }),
+      );
 
       const headers = container.querySelectorAll(
         '.ReactVirtualized__Table__headerColumn',
@@ -1310,10 +1366,11 @@ describe('Table', () => {
 
     it('should set id on a header column when the column has an id', () => {
       const columnId = 'column-header-test';
-      let { container } = render(
-          getMarkup({
-            columnId,
-          }));
+      let {container} = render(
+        getMarkup({
+          columnId,
+        }),
+      );
       const header = container.querySelector(
         '.ReactVirtualized__Table__headerColumn',
       );
@@ -1321,11 +1378,12 @@ describe('Table', () => {
     });
 
     it('should attach a11y properties to a header column if sort is enabled', () => {
-      let { container } = render(
-          getMarkup({
-            disableSort: false,
-            sort: () => {},
-          }));
+      let {container} = render(
+        getMarkup({
+          disableSort: false,
+          sort: () => {},
+        }),
+      );
       const row = container.querySelector(
         '.ReactVirtualized__Table__headerColumn',
       );
@@ -1334,10 +1392,11 @@ describe('Table', () => {
     });
 
     it('should not attach a11y properties to a header column if sort is not enabled', () => {
-      let { container } = render(
-          getMarkup({
-            disableSort: true,
-          }));
+      let {container} = render(
+        getMarkup({
+          disableSort: true,
+        }),
+      );
       const row = container.querySelector(
         '.ReactVirtualized__Table__headerColumn',
       );
@@ -1348,17 +1407,18 @@ describe('Table', () => {
 
   describe('tabIndex', () => {
     it('should be focusable by default', () => {
-      const { container } = render(getMarkup());
+      const {container} = render(getMarkup());
       expect(
         container.querySelector('.ReactVirtualized__Grid').tabIndex,
       ).toEqual(0);
     });
 
     it('should allow tabIndex to be overridden', () => {
-      let { container } = render(
-          getMarkup({
-            tabIndex: -1,
-          }));
+      let {container} = render(
+        getMarkup({
+          tabIndex: -1,
+        }),
+      );
       expect(
         container.querySelector('.ReactVirtualized__Grid').tabIndex,
       ).toEqual(-1);
@@ -1381,7 +1441,7 @@ describe('Table', () => {
         headerRenderer,
         cellRenderer,
       });
-      const { rerender } = render(markup);
+      const {rerender} = render(markup);
       expect(headerRendererCalled).toEqual(true);
       expect(cellRendererCalled).toEqual(true);
       headerRendererCalled = false;
@@ -1429,7 +1489,7 @@ describe('Table', () => {
         tabIndex: 1,
       };
       Object.entries(changedProperties).forEach(([key, value]) => {
-        let { rerender } = render(getMarkup(initialProperties));
+        let {rerender} = render(getMarkup(initialProperties));
         headerRendererCalled = true;
         cellRendererCalled = false;
         rerender(
@@ -1445,7 +1505,7 @@ describe('Table', () => {
   });
 
   it('should set the width of the single-column inner Grid to auto', () => {
-    const { container } = render(getMarkup());
+    const {container} = render(getMarkup());
     expect(
       container.querySelector('.ReactVirtualized__Grid__innerScrollContainer')
         .style.width,
