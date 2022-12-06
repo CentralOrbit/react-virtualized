@@ -53,13 +53,8 @@ export default class ColumnSizer extends React.PureComponent {
   }
 
   render() {
-    const {
-      children,
-      columnMaxWidth,
-      columnMinWidth,
-      columnCount,
-      width,
-    } = this.props;
+    const {children, columnMaxWidth, columnMinWidth, columnCount, width} =
+      this.props;
 
     const safeColumnMinWidth = columnMinWidth || 1;
 

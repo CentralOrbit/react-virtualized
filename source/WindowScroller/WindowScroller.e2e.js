@@ -49,7 +49,7 @@ const renderWindowScroller = ({scrollElement}) => {
   );
 };
 
-const delay = time => new Promise(resolve => setTimeout(resolve, time));
+const delay = (time) => new Promise((resolve) => setTimeout(resolve, time));
 
 test('save position after resize and then scroll in window', async () => {
   const page = await bootstrap();
@@ -91,13 +91,13 @@ test('save position after resize and then scroll in container', async () => {
   await page.evaluate(renderWindowScroller, {scrollElement: 'container'});
 
   // scroll more than viewport
-  await page.$eval('#container', el => el.scrollTo(610, 830));
+  await page.$eval('#container', (el) => el.scrollTo(610, 830));
   await delay(100);
   // resize a bit container/window
   await page.setViewport({width: 300, height: 500});
   await delay(100);
   // scroll again
-  await page.$eval('#container', el => el.scrollTo(620, 840));
+  await page.$eval('#container', (el) => el.scrollTo(620, 840));
   await delay(100);
 
   await page.close();
@@ -149,7 +149,7 @@ test('react on container resize without window changing', async () => {
 
   await delay(100);
 
-  await page.$eval('#wrapper', el => {
+  await page.$eval('#wrapper', (el) => {
     el.style.width = '500px';
     el.style.height = '700px';
   });

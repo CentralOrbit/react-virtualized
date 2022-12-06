@@ -610,7 +610,7 @@ class Grid extends React.PureComponent<Props, State> {
     // If this component was first rendered server-side, scrollbar size will be undefined.
     // In that event we need to remeasure.
     if (!instanceProps.scrollbarSizeMeasured) {
-      this.setState(prevState => {
+      this.setState((prevState) => {
         const stateUpdate = {...prevState, needToResetStyleCache: false};
         stateUpdate.instanceProps.scrollbarSize = getScrollbarSize();
         stateUpdate.instanceProps.scrollbarSizeMeasured = true;
@@ -662,7 +662,8 @@ class Grid extends React.PureComponent<Props, State> {
     this._invokeOnScrollMemoizer({
       scrollLeft: scrollLeft || 0,
       scrollTop: scrollTop || 0,
-      totalColumnsWidth: instanceProps.columnSizeAndPositionManager.getTotalSize(),
+      totalColumnsWidth:
+        instanceProps.columnSizeAndPositionManager.getTotalSize(),
       totalRowsHeight: instanceProps.rowSizeAndPositionManager.getTotalSize(),
     });
 
@@ -686,12 +687,8 @@ class Grid extends React.PureComponent<Props, State> {
       scrollToRow,
       width,
     } = this.props;
-    const {
-      scrollLeft,
-      scrollPositionChangeReason,
-      scrollTop,
-      instanceProps,
-    } = this.state;
+    const {scrollLeft, scrollPositionChangeReason, scrollTop, instanceProps} =
+      this.state;
     // If cell sizes have been invalidated (eg we are using CellMeasurer) then reset cached positions.
     // We must do this at the start of the method as we may calculate and update scroll position below.
     this._handleInvalidatedGridSize();
@@ -791,8 +788,10 @@ class Grid extends React.PureComponent<Props, State> {
       scrollLeft !== prevState.scrollLeft ||
       scrollTop !== prevState.scrollTop
     ) {
-      const totalRowsHeight = instanceProps.rowSizeAndPositionManager.getTotalSize();
-      const totalColumnsWidth = instanceProps.columnSizeAndPositionManager.getTotalSize();
+      const totalRowsHeight =
+        instanceProps.rowSizeAndPositionManager.getTotalSize();
+      const totalColumnsWidth =
+        instanceProps.columnSizeAndPositionManager.getTotalSize();
 
       this._invokeOnScrollMemoizer({
         scrollLeft,
@@ -1004,8 +1003,10 @@ class Grid extends React.PureComponent<Props, State> {
     // calculate children to render here
     this._calculateChildrenToRender(this.props, this.state);
 
-    const totalColumnsWidth = instanceProps.columnSizeAndPositionManager.getTotalSize();
-    const totalRowsHeight = instanceProps.rowSizeAndPositionManager.getTotalSize();
+    const totalColumnsWidth =
+      instanceProps.columnSizeAndPositionManager.getTotalSize();
+    const totalRowsHeight =
+      instanceProps.rowSizeAndPositionManager.getTotalSize();
 
     // Force browser to hide scrollbars when we know they aren't necessary.
     // Otherwise once scrollbars appear they may not disappear again.
@@ -1096,11 +1097,8 @@ class Grid extends React.PureComponent<Props, State> {
       isScrollingOptOut,
     } = props;
 
-    const {
-      scrollDirectionHorizontal,
-      scrollDirectionVertical,
-      instanceProps,
-    } = state;
+    const {scrollDirectionHorizontal, scrollDirectionVertical, instanceProps} =
+      state;
 
     const scrollTop =
       this._initialScrollTop > 0 ? this._initialScrollTop : state.scrollTop;
@@ -1113,31 +1111,27 @@ class Grid extends React.PureComponent<Props, State> {
 
     // Render only enough columns and rows to cover the visible area of the grid.
     if (height > 0 && width > 0) {
-      const visibleColumnIndices = instanceProps.columnSizeAndPositionManager.getVisibleCellRange(
-        {
+      const visibleColumnIndices =
+        instanceProps.columnSizeAndPositionManager.getVisibleCellRange({
           containerSize: width,
           offset: scrollLeft,
-        },
-      );
-      const visibleRowIndices = instanceProps.rowSizeAndPositionManager.getVisibleCellRange(
-        {
+        });
+      const visibleRowIndices =
+        instanceProps.rowSizeAndPositionManager.getVisibleCellRange({
           containerSize: height,
           offset: scrollTop,
-        },
-      );
+        });
 
-      const horizontalOffsetAdjustment = instanceProps.columnSizeAndPositionManager.getOffsetAdjustment(
-        {
+      const horizontalOffsetAdjustment =
+        instanceProps.columnSizeAndPositionManager.getOffsetAdjustment({
           containerSize: width,
           offset: scrollLeft,
-        },
-      );
-      const verticalOffsetAdjustment = instanceProps.rowSizeAndPositionManager.getOffsetAdjustment(
-        {
+        });
+      const verticalOffsetAdjustment =
+        instanceProps.rowSizeAndPositionManager.getOffsetAdjustment({
           containerSize: height,
           offset: scrollTop,
-        },
-      );
+        });
 
       // Store for _invokeOnGridRenderedHelper()
       this._renderedColumnStartIndex = visibleColumnIndices.start;
@@ -1452,13 +1446,8 @@ class Grid extends React.PureComponent<Props, State> {
   }
 
   static _getCalculatedScrollLeft(nextProps: Props, prevState: State) {
-    const {
-      columnCount,
-      height,
-      scrollToAlignment,
-      scrollToColumn,
-      width,
-    } = nextProps;
+    const {columnCount, height, scrollToAlignment, scrollToColumn, width} =
+      nextProps;
     const {scrollLeft, instanceProps} = prevState;
 
     if (columnCount > 0) {
@@ -1467,7 +1456,8 @@ class Grid extends React.PureComponent<Props, State> {
         scrollToColumn < 0
           ? finalColumn
           : Math.min(finalColumn, scrollToColumn);
-      const totalRowsHeight = instanceProps.rowSizeAndPositionManager.getTotalSize();
+      const totalRowsHeight =
+        instanceProps.rowSizeAndPositionManager.getTotalSize();
       const scrollBarSize =
         instanceProps.scrollbarSizeMeasured && totalRowsHeight > height
           ? instanceProps.scrollbarSize
@@ -1538,7 +1528,8 @@ class Grid extends React.PureComponent<Props, State> {
       const finalRow = rowCount - 1;
       const targetIndex =
         scrollToRow < 0 ? finalRow : Math.min(finalRow, scrollToRow);
-      const totalColumnsWidth = instanceProps.columnSizeAndPositionManager.getTotalSize();
+      const totalColumnsWidth =
+        instanceProps.columnSizeAndPositionManager.getTotalSize();
       const scrollBarSize =
         instanceProps.scrollbarSizeMeasured && totalColumnsWidth > width
           ? instanceProps.scrollbarSize

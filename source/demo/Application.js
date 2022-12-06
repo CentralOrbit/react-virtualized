@@ -1,8 +1,7 @@
 import Immutable from 'immutable';
 import PropTypes from 'prop-types';
 import * as React from 'react';
-import {Redirect} from 'react-router';
-import {HashRouter, Route} from 'react-router-dom';
+import {HashRouter, Route, Navigate} from 'react-router-dom';
 
 import ComponentLink from './ComponentLink';
 import styles from './Application.css';
@@ -160,10 +159,10 @@ export default class Application extends React.PureComponent {
 
           <div
             className={bodyStyle}
-            ref={e => this.setState({customElement: e})}>
+            ref={(e) => this.setState({customElement: e})}>
             <div className={styles.column}>
               <Route path="/wizard" component={Wizard} />
-              {Object.keys(COMPONENT_EXAMPLES_MAP).map(route => (
+              {Object.keys(COMPONENT_EXAMPLES_MAP).map((route) => (
                 <Route
                   key={route}
                   path={route}
@@ -173,7 +172,7 @@ export default class Application extends React.PureComponent {
               <Route
                 exact
                 path="/"
-                render={() => <Redirect to="/components/List" />}
+                render={() => <Navigate replace to="/components/List" />}
               />
             </div>
           </div>

@@ -100,7 +100,7 @@ function componentToString({component, indentation = 0}) {
     markup.push(
       Object.keys(component.props)
         .sort()
-        .map(key => `${spaces}  ${key}={${component.props[key]}}`)
+        .map((key) => `${spaces}  ${key}={${component.props[key]}}`)
         .join(`\n`),
     );
   }

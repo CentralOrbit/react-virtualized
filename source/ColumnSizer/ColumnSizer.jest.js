@@ -48,7 +48,7 @@ describe('ColumnSizer', () => {
 
   it('should distribute column widths evenly if no min/max boundaries have been set', () => {
     const rendered = findDOMNode(render(getMarkup()));
-    expect(rendered.querySelector('.debug').textContent).toContain(
+    expect(container.querySelector('.debug').textContent).toContain(
       'columnWidth:20',
     );
   });
@@ -61,20 +61,17 @@ describe('ColumnSizer', () => {
         }),
       ),
     );
-    expect(rendered.querySelector('.debug').textContent).toContain(
+    expect(container.querySelector('.debug').textContent).toContain(
       'columnWidth:10',
     );
   });
 
   it('should respect :columnMinWidth if specified', () => {
-    const rendered = findDOMNode(
-      render(
+    const { container } = render(
         getMarkup({
           columnMinWidth: 30,
-        }),
-      ),
-    );
-    expect(rendered.querySelector('.debug').textContent).toContain(
+        }));
+    expect(container.querySelector('.debug').textContent).toContain(
       'columnWidth:30',
     );
   });
@@ -110,27 +107,22 @@ describe('ColumnSizer', () => {
   });
 
   it('should pass the :width as :adjustedWidth if columns require more than the :width to be displayed', () => {
-    const rendered = findDOMNode(
-      render(
+    const { container } = render(
         getMarkup({
           columnMinWidth: 30,
-        }),
-      ),
-    );
-    expect(rendered.querySelector('.debug').textContent).toContain(
+        }));
+    expect(container.querySelector('.debug').textContent).toContain(
       'adjustedWidth:200',
     );
   });
 
   it('should pass an :adjustedWidth if columns require less than the :width to be displayed', () => {
-    const rendered = findDOMNode(
-      render(
+    const { container } = render(
         getMarkup({
           columnMaxWidth: 10,
         }),
-      ),
-    );
-    expect(rendered.querySelector('.debug').textContent).toContain(
+      );
+    expect(container.querySelector('.debug').textContent).toContain(
       'adjustedWidth:100',
     );
   });

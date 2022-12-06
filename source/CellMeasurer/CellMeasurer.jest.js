@@ -264,7 +264,7 @@ describe('CellMeasurer', () => {
     const node = findDOMNode(
       render(
         <CellMeasurer
-          ref={ref => {
+          ref={(ref) => {
             measurer = ref;
           }}
           cache={cache}
@@ -282,11 +282,11 @@ describe('CellMeasurer', () => {
     Object.defineProperties(node.style, {
       height: {
         get: () => styleHeights[styleHeights.length - 1],
-        set: value => styleHeights.push(value),
+        set: (value) => styleHeights.push(value),
       },
       width: {
         get: () => styleWidths[styleWidths.length - 1],
-        set: value => styleWidths.push(value),
+        set: (value) => styleWidths.push(value),
       },
     });
 

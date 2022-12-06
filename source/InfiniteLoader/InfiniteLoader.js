@@ -89,7 +89,7 @@ export default class InfiniteLoader extends React.PureComponent {
   _loadUnloadedRanges(unloadedRanges) {
     const {loadMoreRows} = this.props;
 
-    unloadedRanges.forEach(unloadedRange => {
+    unloadedRanges.forEach((unloadedRange) => {
       let promise = loadMoreRows(unloadedRange);
       if (promise) {
         promise.then(() => {

@@ -16,9 +16,9 @@ type WindowScrollerProps = {
   serverWidth: number,
 };
 
-const isWindow = element => element === window;
+const isWindow = (element) => element === window;
 
-const getBoundingBox = element => element.getBoundingClientRect();
+const getBoundingBox = (element) => element.getBoundingClientRect();
 
 export function getDimensions(
   scrollElement: ?Element,

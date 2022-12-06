@@ -45,9 +45,8 @@ export default class MultiGridExample extends React.PureComponent {
     };
 
     this._cellRenderer = this._cellRenderer.bind(this);
-    this._onFixedColumnCountChange = this._createEventHandler(
-      'fixedColumnCount',
-    );
+    this._onFixedColumnCountChange =
+      this._createEventHandler('fixedColumnCount');
     this._onFixedRowCountChange = this._createEventHandler('fixedRowCount');
     this._onScrollToColumnChange = this._createEventHandler('scrollToColumn');
     this._onScrollToRowChange = this._createEventHandler('scrollToRow');
@@ -118,7 +117,7 @@ export default class MultiGridExample extends React.PureComponent {
   }
 
   _createEventHandler(property) {
-    return event => {
+    return (event) => {
       const value = parseInt(event.target.value, 10) || 0;
 
       this.setState({

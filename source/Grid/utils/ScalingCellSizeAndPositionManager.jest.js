@@ -25,7 +25,7 @@ describe('ScalingCellSizeAndPositionManager', () => {
         {offset: 70, expectedOffsetPercentage: 1},
       ];
       const instance = init();
-      expectations.forEach(expectation => {
+      expectations.forEach((expectation) => {
         expect(
           instance._getOffsetPercentage({
             containerSize: 30,
@@ -40,13 +40,13 @@ describe('ScalingCellSizeAndPositionManager', () => {
   describe('getOffsetAdjustment', () => {
     it('should always return 0 as the adjustment for unscaled lists', () => {
       const maxScrollSizes = [100, 150];
-      maxScrollSizes.forEach(maxScrollSize => {
+      maxScrollSizes.forEach((maxScrollSize) => {
         const instance = init({
           cellCount: 10,
           maxScrollSize,
         });
         const offsets = [0, 35, 70];
-        offsets.forEach(offset => {
+        offsets.forEach((offset) => {
           expect(
             instance.getOffsetAdjustment({
               containerSize: 30,
@@ -64,7 +64,7 @@ describe('ScalingCellSizeAndPositionManager', () => {
         {offset: 20, expectedAdjustment: -50},
       ];
       const instance = init();
-      offsetsAndExpectedAdjustements.forEach(offsetAndExpectedAdjustement => {
+      offsetsAndExpectedAdjustements.forEach((offsetAndExpectedAdjustement) => {
         expect(
           instance.getOffsetAdjustment({
             containerSize: 30,
@@ -78,7 +78,7 @@ describe('ScalingCellSizeAndPositionManager', () => {
   describe('getTotalSize', () => {
     it('should return :totalSize if it is not greater than :maxScrollSize', () => {
       const maxScrollSizes = [500, 750];
-      maxScrollSizes.forEach(maxScrollSize => {
+      maxScrollSizes.forEach((maxScrollSize) => {
         const instance = init({
           cellCount: 50,
           maxScrollSize,
@@ -104,7 +104,7 @@ describe('ScalingCellSizeAndPositionManager', () => {
         {targetIndex: 2, expectedOffset: 6}, // (unsafe: 20)
       ];
       const instance = init();
-      data.forEach(datum => {
+      data.forEach((datum) => {
         expect(
           instance.getUpdatedOffsetForIndex({
             containerSize: 30,
@@ -121,7 +121,7 @@ describe('ScalingCellSizeAndPositionManager', () => {
         {targetIndex: 9, expectedOffset: 20}, // (unsafe: 70)
       ];
       const instance = init();
-      data.forEach(datum => {
+      data.forEach((datum) => {
         expect(
           instance.getUpdatedOffsetForIndex({
             containerSize: 30,

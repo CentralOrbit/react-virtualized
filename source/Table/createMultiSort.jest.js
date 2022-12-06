@@ -171,7 +171,7 @@ describe('createMultiSort', () => {
     });
   });
 
-  ['control', 'meta'].forEach(modifier => {
+  ['control', 'meta'].forEach((modifier) => {
     describe(`${modifier} click`, () => {
       it('removes a field from the sort by list', () => {
         const multiSort = createMultiSort(jest.fn(), {

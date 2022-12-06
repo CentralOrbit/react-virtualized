@@ -92,7 +92,7 @@ export default class TableExample extends React.PureComponent {
               checked={useDynamicRowHeight}
               className={styles.checkbox}
               type="checkbox"
-              onChange={event =>
+              onChange={(event) =>
                 this._updateUseDynamicRowHeight(event.target.checked)
               }
             />
@@ -105,7 +105,7 @@ export default class TableExample extends React.PureComponent {
               checked={hideIndexRow}
               className={styles.checkbox}
               type="checkbox"
-              onChange={event =>
+              onChange={(event) =>
                 this.setState({hideIndexRow: event.target.checked})
               }
             />
@@ -118,7 +118,7 @@ export default class TableExample extends React.PureComponent {
               checked={disableHeader}
               className={styles.checkbox}
               type="checkbox"
-              onChange={event =>
+              onChange={(event) =>
                 this.setState({disableHeader: event.target.checked})
               }
             />
@@ -143,7 +143,7 @@ export default class TableExample extends React.PureComponent {
           <LabeledInput
             label="List height"
             name="height"
-            onChange={event =>
+            onChange={(event) =>
               this.setState({height: parseInt(event.target.value, 10) || 1})
             }
             value={height}
@@ -152,7 +152,7 @@ export default class TableExample extends React.PureComponent {
             disabled={useDynamicRowHeight}
             label="Row height"
             name="rowHeight"
-            onChange={event =>
+            onChange={(event) =>
               this.setState({
                 rowHeight: parseInt(event.target.value, 10) || 1,
               })
@@ -162,7 +162,7 @@ export default class TableExample extends React.PureComponent {
           <LabeledInput
             label="Header height"
             name="headerHeight"
-            onChange={event =>
+            onChange={(event) =>
               this.setState({
                 headerHeight: parseInt(event.target.value, 10) || 1,
               })
@@ -172,7 +172,7 @@ export default class TableExample extends React.PureComponent {
           <LabeledInput
             label="Overscan"
             name="overscanRowCount"
-            onChange={event =>
+            onChange={(event) =>
               this.setState({
                 overscanRowCount: parseInt(event.target.value, 10) || 0,
               })
@@ -301,8 +301,8 @@ export default class TableExample extends React.PureComponent {
     const {list} = this.context;
 
     return list
-      .sortBy(item => item[sortBy])
-      .update(list =>
+      .sortBy((item) => item[sortBy])
+      .update((list) =>
         sortDirection === SortDirection.DESC ? list.reverse() : list,
       );
   }

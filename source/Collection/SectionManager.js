@@ -33,14 +33,14 @@ export default class SectionManager {
   getCellIndices({height, width, x, y}: SizeAndPositionInfo): Array<number> {
     const indices = {};
 
-    this.getSections({height, width, x, y}).forEach(section =>
-      section.getCellIndices().forEach(index => {
+    this.getSections({height, width, x, y}).forEach((section) =>
+      section.getCellIndices().forEach((index) => {
         indices[index] = index;
       }),
     );
 
     // Object keys are strings; this function returns numbers
-    return Object.keys(indices).map(index => indices[index]);
+    return Object.keys(indices).map((index) => indices[index]);
   }
 
   /** Get size and position information for the cell specified. */
@@ -84,7 +84,7 @@ export default class SectionManager {
 
   /** Intended for debugger/test purposes only */
   toString() {
-    return Object.keys(this._sections).map(index =>
+    return Object.keys(this._sections).map((index) =>
       this._sections[index].toString(),
     );
   }
@@ -93,7 +93,7 @@ export default class SectionManager {
   registerCell({cellMetadatum, index}: RegisterCellParams) {
     this._cellMetadata[index] = cellMetadatum;
 
-    this.getSections(cellMetadatum).forEach(section =>
+    this.getSections(cellMetadatum).forEach((section) =>
       section.addCellIndex({index}),
     );
   }

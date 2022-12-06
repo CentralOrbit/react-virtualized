@@ -58,7 +58,7 @@ describe('ScrollSync', () => {
     let onScroll;
     const component = render(
       <ScrollSync>
-        {params => {
+        {(params) => {
           onScroll = params.onScroll;
           return <ChildComponent {...params} />;
         }}

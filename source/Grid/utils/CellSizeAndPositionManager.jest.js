@@ -101,28 +101,22 @@ describe('CellSizeAndPositionManager', () => {
     });
 
     it('should only measure the necessary cells to return the information requested', () => {
-      const {
-        cellSizeAndPositionManager,
-        cellSizeGetterCalls,
-      } = getCellSizeAndPositionManager();
+      const {cellSizeAndPositionManager, cellSizeGetterCalls} =
+        getCellSizeAndPositionManager();
       cellSizeAndPositionManager.getSizeAndPositionOfCell(0);
       expect(cellSizeGetterCalls).toEqual([0]);
     });
 
     it('should just-in-time measure all cells up to the requested cell if no cells have yet been measured', () => {
-      const {
-        cellSizeAndPositionManager,
-        cellSizeGetterCalls,
-      } = getCellSizeAndPositionManager();
+      const {cellSizeAndPositionManager, cellSizeGetterCalls} =
+        getCellSizeAndPositionManager();
       cellSizeAndPositionManager.getSizeAndPositionOfCell(5);
       expect(cellSizeGetterCalls).toEqual([0, 1, 2, 3, 4, 5]);
     });
 
     it('should just-in-time measure cells up to the requested cell if some but not all cells have been measured', () => {
-      const {
-        cellSizeAndPositionManager,
-        cellSizeGetterCalls,
-      } = getCellSizeAndPositionManager();
+      const {cellSizeAndPositionManager, cellSizeGetterCalls} =
+        getCellSizeAndPositionManager();
       cellSizeAndPositionManager.getSizeAndPositionOfCell(5);
       cellSizeGetterCalls.splice(0);
       cellSizeAndPositionManager.getSizeAndPositionOfCell(10);
@@ -130,10 +124,8 @@ describe('CellSizeAndPositionManager', () => {
     });
 
     it('should return cached size and position data if cell has already been measured', () => {
-      const {
-        cellSizeAndPositionManager,
-        cellSizeGetterCalls,
-      } = getCellSizeAndPositionManager();
+      const {cellSizeAndPositionManager, cellSizeGetterCalls} =
+        getCellSizeAndPositionManager();
       cellSizeAndPositionManager.getSizeAndPositionOfCell(5);
       cellSizeGetterCalls.splice(0);
       cellSizeAndPositionManager.getSizeAndPositionOfCell(5);
@@ -393,10 +385,8 @@ describe('CellSizeAndPositionManager', () => {
     });
 
     it('should not clear size and position metadata for cells before the specified index', () => {
-      const {
-        cellSizeAndPositionManager,
-        cellSizeGetterCalls,
-      } = getCellSizeAndPositionManager();
+      const {cellSizeAndPositionManager, cellSizeGetterCalls} =
+        getCellSizeAndPositionManager();
       cellSizeAndPositionManager.getSizeAndPositionOfCell(5);
       cellSizeGetterCalls.splice(0);
       cellSizeAndPositionManager.resetCell(3);

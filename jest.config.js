@@ -14,4 +14,5 @@ module.exports = {
   ],
   testRegex: '.(jest|e2e|ssr).js$',
   verbose: true,
+  testEnvironment: "jest-environment-jsdom"
 };

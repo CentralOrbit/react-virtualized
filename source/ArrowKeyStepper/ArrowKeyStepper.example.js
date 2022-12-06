@@ -63,7 +63,7 @@ export default class ArrowKeyStepperExample extends React.PureComponent<
               checked={mode === 'cells'}
               className={styles.Radio}
               type="radio"
-              onChange={event =>
+              onChange={(event) =>
                 event.target.checked && this.setState({mode: 'cells'})
               }
               value="cells"
@@ -76,7 +76,7 @@ export default class ArrowKeyStepperExample extends React.PureComponent<
               checked={mode === 'edges'}
               className={styles.Radio}
               type="radio"
-              onChange={event =>
+              onChange={(event) =>
                 event.target.checked && this.setState({mode: 'edges'})
               }
               value="edges"

@@ -16,14 +16,14 @@ describe('calculateSizeAndPositionDataAndUpdateScrollOffset', () => {
     calculateSizeAndPositionDataAndUpdateScrollOffset({
       cellCount,
       cellSize,
-      computeMetadataCallback: params =>
+      computeMetadataCallback: (params) =>
         computeMetadataCallbackCalls.push(params),
       computeMetadataCallbackProps,
       nextCellsCount,
       nextCellSize,
       nextScrollToIndex,
       scrollToIndex,
-      updateScrollOffsetForScrollToIndex: params =>
+      updateScrollOffsetForScrollToIndex: (params) =>
         updateScrollOffsetForScrollToIndexCalls.push(params),
     });
 

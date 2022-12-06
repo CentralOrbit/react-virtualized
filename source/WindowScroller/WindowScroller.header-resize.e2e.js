@@ -17,7 +17,7 @@ const bootstrap = async () => {
   return page;
 };
 
-const renderWindowScroller = updateScrollTopOnUpdatePosition => {
+const renderWindowScroller = (updateScrollTopOnUpdatePosition) => {
   const {render} = window.ReactDOM;
   const {createElement, useState, useEffect} = window.React;
   const {WindowScroller} = window.ReactVirtualized;
@@ -44,7 +44,7 @@ const renderWindowScroller = updateScrollTopOnUpdatePosition => {
         WindowScroller,
         {
           updateScrollTopOnUpdatePosition,
-          ref: windowScroller => {
+          ref: (windowScroller) => {
             window.windowScroller = windowScroller;
           },
           onScroll: window.scrollFn,
@@ -77,7 +77,7 @@ const renderWindowScroller = updateScrollTopOnUpdatePosition => {
 
 jest.setTimeout(1200000);
 
-const delay = time => new Promise(resolve => setTimeout(resolve, time));
+const delay = (time) => new Promise((resolve) => setTimeout(resolve, time));
 
 test('will react to header height updates if notified through updatePosition', async () => {
   const page = await bootstrap();

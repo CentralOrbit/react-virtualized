@@ -19,9 +19,9 @@ function verifySections(
 ) {
   const sections = sectionManager.getSections(sizeAndPosition);
   expect(sections.length).toEqual(expectedSizeAndPositionInfos.length);
-  expectedSizeAndPositionInfos.forEach(sizeAndPosition => {
+  expectedSizeAndPositionInfos.forEach((sizeAndPosition) => {
     const match = sections.find(
-      section =>
+      (section) =>
         section.x === sizeAndPosition.x && section.y === sizeAndPosition.y,
     );
     expect(!!match).toEqual(true);

@@ -88,7 +88,7 @@ export default class GridExample extends React.PureComponent {
               checked={windowScrollerEnabled}
               className={styles.checkbox}
               type="checkbox"
-              onChange={event => {
+              onChange={(event) => {
                 // HACK Because this demo switches between using WindowScroller and not,
                 // It's easier to clear the cache when toggling modes to avoid a partially stale state.
                 this._cache.clearAll();
@@ -108,7 +108,7 @@ export default class GridExample extends React.PureComponent {
           <LabeledInput
             label="Height"
             name="height"
-            onChange={event => {
+            onChange={(event) => {
               this.setState({
                 height: parseInt(event.target.value, 10) || 300,
               });
@@ -118,7 +118,7 @@ export default class GridExample extends React.PureComponent {
           <LabeledInput
             label="Column Width"
             name="columnWidth"
-            onChange={event => {
+            onChange={(event) => {
               this._cache.clearAll();
               this.setState(
                 {
@@ -136,7 +136,7 @@ export default class GridExample extends React.PureComponent {
           <LabeledInput
             label="Gutter Size"
             name="gutterSize"
-            onChange={event => {
+            onChange={(event) => {
               this.setState(
                 {
                   gutterSize: parseInt(event.target.value, 10) || 10,
@@ -153,7 +153,7 @@ export default class GridExample extends React.PureComponent {
           <LabeledInput
             label="Overscan (px)"
             name="overscanByPixels"
-            onChange={event => {
+            onChange={(event) => {
               this.setState({
                 overscanByPixels: parseInt(event.target.value, 10) || 0,
               });
@@ -276,7 +276,7 @@ export default class GridExample extends React.PureComponent {
     const ROW_HEIGHTS = [25, 50, 75, 100];
 
     const {list} = this.context;
-    list.forEach(datum => {
+    list.forEach((datum) => {
       datum.size = ROW_HEIGHTS[Math.floor(Math.random() * ROW_HEIGHTS.length)];
     });
 

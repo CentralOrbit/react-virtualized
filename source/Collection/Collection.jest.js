@@ -50,7 +50,7 @@ describe('Collection', () => {
   function compareArrays(array1, array2) {
     expect(array1.length).toEqual(array2.length);
 
-    array2.forEach(value => {
+    array2.forEach((value) => {
       expect(array1).toContain(value);
     });
   }
@@ -58,12 +58,12 @@ describe('Collection', () => {
   describe('number of rendered children', () => {
     it('should render enough children to fill the available area', () => {
       const rendered = findDOMNode(render(getMarkup()));
-      expect(rendered.querySelectorAll('.cell').length).toEqual(4);
+      expect(container.querySelectorAll('.cell').length).toEqual(4);
     });
 
     it('should not render more cells than available if the area is not filled', () => {
       const rendered = findDOMNode(render(getMarkup({cellCount: 2})));
-      expect(rendered.querySelectorAll('.cell').length).toEqual(2);
+      expect(container.querySelectorAll('.cell').length).toEqual(2);
     });
 
     // Small performance tweak added in 5.5.6
@@ -80,7 +80,7 @@ describe('Collection', () => {
         }
       }
       const rendered = findDOMNode(render(getMarkup({cellRenderer})));
-      expect(rendered.querySelectorAll('.cell').length).toEqual(3);
+      expect(container.querySelectorAll('.cell').length).toEqual(3);
     });
   });
 
@@ -92,102 +92,77 @@ describe('Collection', () => {
     });
 
     it('should set overflowX:hidden if columns fit within the available width and y-axis has no scrollbar', () => {
-      const rendered = findDOMNode(
-        render(
+      let { container } = render(
           getMarkup({
             height: 4,
             width: 6,
-          }),
-        ),
-      );
+          }));
       expect(rendered.style.overflowX).toEqual('hidden');
     });
 
     it('should set overflowX:hidden if columns and y-axis scrollbar fit within the available width', () => {
-      const rendered = findDOMNode(
-        render(
+      let { container } = render(
           getMarkup({
             height: 1,
             width: 6 + scrollbarSize,
-          }),
-        ),
-      );
+          }));
       expect(rendered.style.overflowX).toEqual('hidden');
     });
 
     it('should leave overflowX:auto if columns require more than the available width', () => {
-      const rendered = findDOMNode(
-        render(
+      let { container } = render(
           getMarkup({
             width: 1,
-          }),
-        ),
-      );
+          }));
       expect(rendered.style.overflowX).not.toEqual('hidden');
     });
 
     it('should leave overflowX:auto if columns and y-axis scrollbar require more than the available width', () => {
-      const rendered = findDOMNode(
-        render(
+      let { container } = render(
           getMarkup({
             height: 1,
             width: 6 + scrollbarSize - 1,
-          }),
-        ),
-      );
+          }));
       expect(rendered.style.overflowX).not.toEqual('hidden');
     });
 
     it('should set overflowY:hidden if rows fit within the available width and xaxis has no scrollbar', () => {
-      const rendered = findDOMNode(
-        render(
+      let { container } = render(
           getMarkup({
             height: 4,
             width: 6,
-          }),
-        ),
-      );
+          }));
       expect(rendered.style.overflowY).toEqual('hidden');
     });
 
     it('should set overflowY:hidden if rows and x-axis scrollbar fit within the available width', () => {
-      const rendered = findDOMNode(
-        render(
+      let { container } = render(
           getMarkup({
             height: 4 + scrollbarSize,
             width: 1,
-          }),
-        ),
-      );
+          }));
       expect(rendered.style.overflowY).toEqual('hidden');
     });
 
     it('should leave overflowY:auto if rows require more than the available height', () => {
-      const rendered = findDOMNode(
-        render(
+      let { container } = render(
           getMarkup({
             height: 1,
-          }),
-        ),
-      );
+          }));
       expect(rendered.style.overflowY).not.toEqual('hidden');
     });
 
     it('should leave overflowY:auto if rows and y-axis scrollbar require more than the available height', () => {
-      const rendered = findDOMNode(
-        render(
+      let { container } = render(
           getMarkup({
             height: 4 + scrollbarSize - 1,
             width: 1,
-          }),
-        ),
-      );
+          }));
       expect(rendered.style.overflowY).not.toEqual('hidden');
     });
 
     it('should accept styles that overwrite calculated ones', () => {
-      const rendered = findDOMNode(
-        render(
+      let { container } = render(
           getMarkup({
             height: 1,
             style: {
@@ -195,9 +170,7 @@ describe('Collection', () => {
               overflowY: 'auto',
             },
             width: 1,
-          }),
-        ),
-      );
+          }));
       expect(rendered.style.overflowX).toEqual('auto');
       expect(rendered.style.overflowY).toEqual('auto');
     });
@@ -217,7 +190,7 @@ describe('Collection', () => {
       const props = {
         autoHeight: true,
         height: 500,
-        onSectionRendered: params => {
+        onSectionRendered: (params) => {
           indices = params.indices;
         },
       };
@@ -343,9 +316,7 @@ describe('Collection', () => {
           getMarkup({
             noContentRenderer: () => <div>No data</div>,
             cellCount: 0,
-          }),
-        ),
-      );
+          }));
       expect(list.textContent).toEqual('No data');
     });
 
@@ -354,9 +325,7 @@ describe('Collection', () => {
         render(
           getMarkup({
             cellCount: 0,
-          }),
-        ),
-      );
+          }));
       expect(list.textContent).toEqual('');
     });
 
@@ -378,9 +347,7 @@ describe('Collection', () => {
             cellCount: 1,
             cellSizeAndPositionGetter,
             noContentRenderer: () => <div>No data</div>,
-          }),
-        ),
-      );
+          }));
       expect(list.textContent).not.toEqual('No data');
     });
   });
@@ -390,7 +357,7 @@ describe('Collection', () => {
       let indices;
       render(
         getMarkup({
-          onSectionRendered: params => {
+          onSectionRendered: (params) => {
             indices = params.indices;
           },
         }),
@@ -401,7 +368,7 @@ describe('Collection', () => {
     it('should not call :onSectionRendered unless the rendered indices have changed', () => {
       let numCalls = 0;
       let indices;
-      const onSectionRendered = params => {
+      const onSectionRendered = (params) => {
         indices = params.indices;
         numCalls++;
       };
@@ -416,7 +383,7 @@ describe('Collection', () => {
     it('should call :onSectionRendered if the rendered indices have changed', () => {
       let numCalls = 0;
       let indices;
-      const onSectionRendered = params => {
+      const onSectionRendered = (params) => {
         indices = params.indices;
         numCalls++;
       };
@@ -459,7 +426,7 @@ describe('Collection', () => {
       let indices;
       const collection = render(
         getMarkup({
-          onSectionRendered: params => {
+          onSectionRendered: (params) => {
             indices = params.indices;
           },
           scrollLeft: 2,
@@ -476,7 +443,7 @@ describe('Collection', () => {
       let indices;
       render(
         getMarkup({
-          onSectionRendered: params => {
+          onSectionRendered: (params) => {
             indices = params.indices;
           },
         }),
@@ -484,7 +451,7 @@ describe('Collection', () => {
       compareArrays(indices, [0, 1, 2, 3]);
       const collection = render(
         getMarkup({
-          onSectionRendered: params => {
+          onSectionRendered: (params) => {
             indices = params.indices;
           },
           scrollLeft: 2,
@@ -526,7 +493,7 @@ describe('Collection', () => {
       const onScrollCalls = [];
       render(
         getMarkup({
-          onScroll: params => onScrollCalls.push(params),
+          onScroll: (params) => onScrollCalls.push(params),
           scrollLeft: 2,
           scrollTop: 1,
         }),
@@ -547,7 +514,7 @@ describe('Collection', () => {
       const onScrollCalls = [];
       const collection = render(
         getMarkup({
-          onScroll: params => onScrollCalls.push(params),
+          onScroll: (params) => onScrollCalls.push(params),
         }),
       );
       simulateScroll({
@@ -570,7 +537,7 @@ describe('Collection', () => {
       const onScrollCalls = [];
       const collection = render(
         getMarkup({
-          onScroll: params => onScrollCalls.push(params),
+          onScroll: (params) => onScrollCalls.push(params),
         }),
       );
       simulateScroll({
@@ -593,7 +560,7 @@ describe('Collection', () => {
       const onScrollCalls = [];
       const collection = render(
         getMarkup({
-          onScroll: params => onScrollCalls.push(params),
+          onScroll: (params) => onScrollCalls.push(params),
         }),
       );
       simulateScroll({
@@ -620,15 +587,13 @@ describe('Collection', () => {
         render(
           getMarkup({
             cellRenderer,
-            cellGroupRenderer: params => {
+            cellGroupRenderer: (params) => {
               cellGroupRendererParams = params;
               cellGroupRendererCalled++;
 
               return [<div key="0">Fake content</div>];
             },
-          }),
-        ),
-      );
+          }));
       expect(cellGroupRendererCalled).toEqual(1);
       expect(cellGroupRendererParams.cellRenderer).toEqual(cellRenderer);
       expect(typeof cellGroupRendererParams.cellSizeAndPositionGetter).toEqual(
@@ -638,7 +603,7 @@ describe('Collection', () => {
     });
   });
 
-  it('should pass the cellRenderer an :isScrolling flag when scrolling is in progress', async done => {
+  it('should pass the cellRenderer an :isScrolling flag when scrolling is in progress', async (done) => {
     const cellRendererCalls = [];
     function cellRenderer({index, isScrolling, key, style}) {
       cellRendererCalls.push(isScrolling);
@@ -658,7 +623,7 @@ describe('Collection', () => {
     simulateScroll({collection, scrollTop: 1});
 
     // Give React time to process the queued setState()
-    await new Promise(resolve => setTimeout(resolve, 1));
+    await new Promise((resolve) => setTimeout(resolve, 1));
 
     expect(cellRendererCalls[0]).toEqual(true);
 
@@ -670,7 +635,7 @@ describe('Collection', () => {
       let indices;
       render(
         getMarkup({
-          onSectionRendered: params => {
+          onSectionRendered: (params) => {
             indices = params.indices;
           },
           height: 1,
@@ -689,7 +654,7 @@ describe('Collection', () => {
       let indices;
       render(
         getMarkup({
-          onSectionRendered: params => {
+          onSectionRendered: (params) => {
             indices = params.indices;
           },
           height: 2,
@@ -708,7 +673,7 @@ describe('Collection', () => {
       let indices;
       render(
         getMarkup({
-          onSectionRendered: params => {
+          onSectionRendered: (params) => {
             indices = params.indices;
           },
           height: 2,
@@ -740,7 +705,7 @@ describe('Collection', () => {
 
       findDOMNode(render(getMarkup(props)));
       expect(cellRendererCalls.length).toEqual(4);
-      cellRendererCalls.forEach(call =>
+      cellRendererCalls.forEach((call) =>
         expect(call.isScrolling).toEqual(false),
       );
 
@@ -753,7 +718,7 @@ describe('Collection', () => {
         }),
       );
       expect(cellRendererCalls.length).toEqual(4);
-      cellRendererCalls.forEach(call =>
+      cellRendererCalls.forEach((call) =>
         expect(call.isScrolling).toEqual(false),
       );
     });
@@ -773,7 +738,7 @@ describe('Collection', () => {
 
       const collection = render(getMarkup(props));
       expect(cellRendererCalls.length).toEqual(4);
-      cellRendererCalls.forEach(call =>
+      cellRendererCalls.forEach((call) =>
         expect(call.isScrolling).toEqual(false),
       );
 
@@ -793,10 +758,12 @@ describe('Collection', () => {
         }),
       );
       expect(cellRendererCalls.length).toEqual(3);
-      cellRendererCalls.forEach(call => expect(call.isScrolling).toEqual(true));
+      cellRendererCalls.forEach((call) =>
+        expect(call.isScrolling).toEqual(true),
+      );
     });
 
-    it('should clear cache once :isScrolling is false', async done => {
+    it('should clear cache once :isScrolling is false', async (done) => {
       const cellRendererCalls = [];
       function cellRenderer({isScrolling, index, key, style}) {
         cellRendererCalls.push({isScrolling, index});
@@ -813,7 +780,7 @@ describe('Collection', () => {
       simulateScroll({collection, scrollTop: 1});
 
       // Allow scrolling timeout to complete so that cell cache is reset
-      await new Promise(resolve => setTimeout(resolve, 500));
+      await new Promise((resolve) => setTimeout(resolve, 500));
 
       cellRendererCalls.splice(0);
 

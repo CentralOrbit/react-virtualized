@@ -23,7 +23,7 @@ function mockGetBoundingClientRectForHeader({
 function getMarkup({headerElements, documentOffset, renderFn, ...props} = {}) {
   const windowScroller = (
     <WindowScroller {...props}>
-      {params => <div>{renderFn && renderFn(params)}</div>}
+      {(params) => <div>{renderFn && renderFn(params)}</div>}
     </WindowScroller>
   );
 
@@ -149,7 +149,7 @@ describe('WindowScroller', () => {
     document.body.style.pointerEvents = 'all';
     simulateWindowScroll({scrollY: 5000});
     expect(document.body.style.pointerEvents).toEqual('none');
-    await new Promise(resolve =>
+    await new Promise((resolve) =>
       setTimeout(resolve, IS_SCROLLING_TIMEOUT + 100),
     );
     expect(document.body.style.pointerEvents).toEqual('all');
@@ -172,7 +172,7 @@ describe('WindowScroller', () => {
       simulateWindowScroll({scrollY: 5000});
 
       // Allow scrolling timeout to complete so that the component computes state
-      await new Promise(resolve => setTimeout(resolve, 150));
+      await new Promise((resolve) => setTimeout(resolve, 150));
 
       expect(onScroll).toHaveBeenCalledWith({
         scrollLeft: 0,
@@ -185,7 +185,7 @@ describe('WindowScroller', () => {
       });
 
       // Allow scrolling timeout to complete so that the component computes state
-      await new Promise(resolve => setTimeout(resolve, 150));
+      await new Promise((resolve) => setTimeout(resolve, 150));
 
       expect(onScroll).toHaveBeenCalledWith({
         scrollLeft: 2500,
@@ -207,7 +207,7 @@ describe('WindowScroller', () => {
       simulateWindowScroll({scrollY: 5000});
 
       // Allow scrolling timeout to complete so that the component computes state
-      await new Promise(resolve => setTimeout(resolve, 150));
+      await new Promise((resolve) => setTimeout(resolve, 150));
 
       const componentScrollTop = window.scrollY - component._positionFromTop;
       expect(component.state.scrollTop).toEqual(componentScrollTop);
@@ -230,7 +230,7 @@ describe('WindowScroller', () => {
         }),
       );
 
-      await new Promise(resolve => setTimeout(resolve, 250));
+      await new Promise((resolve) => setTimeout(resolve, 250));
 
       expect(renderFn).lastCalledWith(
         expect.objectContaining({
@@ -262,7 +262,7 @@ describe('WindowScroller', () => {
         }),
       );
 
-      await new Promise(resolve => setTimeout(resolve, 100));
+      await new Promise((resolve) => setTimeout(resolve, 100));
 
       expect(renderFn).lastCalledWith(
         expect.objectContaining({
@@ -270,7 +270,7 @@ describe('WindowScroller', () => {
         }),
       );
 
-      await new Promise(resolve => setTimeout(resolve, 100));
+      await new Promise((resolve) => setTimeout(resolve, 100));
 
       expect(renderFn).lastCalledWith(
         expect.objectContaining({
@@ -278,7 +278,7 @@ describe('WindowScroller', () => {
         }),
       );
 
-      await new Promise(resolve => setTimeout(resolve, 400));
+      await new Promise((resolve) => setTimeout(resolve, 400));
 
       expect(renderFn).lastCalledWith(
         expect.objectContaining({
@@ -331,7 +331,7 @@ describe('WindowScroller', () => {
       render(
         getMarkup({
           headerElements: <div style={{height: 100}} />,
-          ref: ref => {
+          ref: (ref) => {
             windowScroller = ref;
           },
         }),
@@ -346,7 +346,7 @@ describe('WindowScroller', () => {
       render(
         getMarkup({
           headerElements: <div id="header" style={{height: 100, width: 150}} />,
-          ref: ref => {
+          ref: (ref) => {
             windowScroller = ref;
           },
         }),
@@ -375,7 +375,7 @@ describe('WindowScroller', () => {
       render(
         getMarkup({
           headerElements: <div id="header" style={{height: 100, width: 150}} />,
-          ref: ref => {
+          ref: (ref) => {
             windowScroller = ref;
           },
         }),
@@ -415,7 +415,7 @@ describe('WindowScroller', () => {
 
       render(
         getMarkup({
-          ref: ref => {
+          ref: (ref) => {
             windowScroller = ref;
           },
           renderFn,
@@ -448,7 +448,7 @@ describe('WindowScroller', () => {
 
       render(
         getMarkup({
-          ref: ref => {
+          ref: (ref) => {
             windowScroller = ref;
           },
           renderFn,

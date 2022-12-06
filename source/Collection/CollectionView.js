@@ -235,10 +235,8 @@ class CollectionView extends React.PureComponent {
     // Update onSectionRendered callback.
     this._invokeOnSectionRenderedHelper();
 
-    const {
-      height: totalHeight,
-      width: totalWidth,
-    } = cellLayoutManager.getTotalSize();
+    const {height: totalHeight, width: totalWidth} =
+      cellLayoutManager.getTotalSize();
 
     // Initialize onScroll callback.
     this._invokeOnScrollMemoizer({
@@ -327,10 +325,8 @@ class CollectionView extends React.PureComponent {
       cellLayoutManager.calculateSizeAndPositionData();
     }
 
-    const {
-      height: totalHeight,
-      width: totalWidth,
-    } = cellLayoutManager.getTotalSize();
+    const {height: totalHeight, width: totalWidth} =
+      cellLayoutManager.getTotalSize();
 
     // Safely expand the rendered area by the specified overscan amount
     const left = Math.max(0, scrollLeft - horizontalOverscanSize);
@@ -471,7 +467,7 @@ class CollectionView extends React.PureComponent {
     });
   }
 
-  _setScrollingContainerRef = ref => {
+  _setScrollingContainerRef = (ref) => {
     this._scrollingContainer = ref;
   };
 
@@ -497,13 +493,8 @@ class CollectionView extends React.PureComponent {
   }
 
   _updateScrollPositionForScrollToCell = () => {
-    const {
-      cellLayoutManager,
-      height,
-      scrollToAlignment,
-      scrollToCell,
-      width,
-    } = this.props;
+    const {cellLayoutManager, height, scrollToAlignment, scrollToCell, width} =
+      this.props;
     const {scrollLeft, scrollTop} = this.state;
 
     if (scrollToCell >= 0) {
@@ -525,7 +516,7 @@ class CollectionView extends React.PureComponent {
     }
   };
 
-  _onScroll = event => {
+  _onScroll = (event) => {
     // In certain edge-cases React dispatches an onScroll event with an invalid target.scrollLeft / target.scrollTop.
     // This invalid event can be detected by comparing event.target to this component's scrollable DOM element.
     // See issue #404 for more information.
@@ -542,10 +533,8 @@ class CollectionView extends React.PureComponent {
     // We can avoid that by doing some simple bounds checking to ensure that scrollTop never exceeds the total height.
     const {cellLayoutManager, height, isScrollingChange, width} = this.props;
     const scrollbarSize = this._scrollbarSize;
-    const {
-      height: totalHeight,
-      width: totalWidth,
-    } = cellLayoutManager.getTotalSize();
+    const {height: totalHeight, width: totalWidth} =
+      cellLayoutManager.getTotalSize();
     const scrollLeft = Math.max(
       0,
       Math.min(totalWidth - width + scrollbarSize, event.target.scrollLeft),

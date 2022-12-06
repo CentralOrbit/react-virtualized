@@ -22,7 +22,7 @@ export function render(markup) {
  * The render() method auto-unmounts components after each test has completed.
  * Use this method manually to test the componentWillUnmount() lifecycle method.
  */
-render.unmount = function() {
+render.unmount = function () {
   if (render._mountNode) {
     ReactDOM.unmountComponentAtNode(render._mountNode);
 

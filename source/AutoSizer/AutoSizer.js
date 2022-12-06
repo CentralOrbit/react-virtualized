@@ -1,4 +1,4 @@
-/** @flow */
+// @flow
 
 import * as React from 'react';
 import createDetectElementResize from '../vendor/detectElementResize';
@@ -10,7 +10,7 @@ type Size = {
 
 type Props = {
   /** Function responsible for rendering children.*/
-  children: Size => React.Element<*>,
+  children: (Size) => React.Element<*>,
 
   /** Optional custom CSS class name to attach to root AutoSizer element.  */
   className?: string,
@@ -31,7 +31,7 @@ type Props = {
   nonce?: string,
 
   /** Callback to be invoked on-resize */
-  onResize: Size => void,
+  onResize: (Size) => void,
 
   /** Optional inline style */
   style: ?Object,
@@ -108,13 +108,8 @@ export default class AutoSizer extends React.Component<Props, State> {
   }
 
   render() {
-    const {
-      children,
-      className,
-      disableHeight,
-      disableWidth,
-      style,
-    } = this.props;
+    const {children, className, disableHeight, disableWidth, style} =
+      this.props;
     const {height, width} = this.state;
 
     // Outer div should not force width/height since that may prevent containers from shrinking.

@@ -80,7 +80,7 @@ export default class GridExample extends React.PureComponent {
               className={styles.checkbox}
               type="checkbox"
               value={useDynamicRowHeight}
-              onChange={event =>
+              onChange={(event) =>
                 this._updateUseDynamicRowHeights(event.target.checked)
               }
             />
@@ -118,7 +118,7 @@ export default class GridExample extends React.PureComponent {
           <LabeledInput
             label="List height"
             name="height"
-            onChange={event =>
+            onChange={(event) =>
               this.setState({height: parseInt(event.target.value, 10) || 1})
             }
             value={height}
@@ -127,7 +127,7 @@ export default class GridExample extends React.PureComponent {
             disabled={useDynamicRowHeight}
             label="Row height"
             name="rowHeight"
-            onChange={event =>
+            onChange={(event) =>
               this.setState({
                 rowHeight: parseInt(event.target.value, 10) || 1,
               })
@@ -137,7 +137,7 @@ export default class GridExample extends React.PureComponent {
           <LabeledInput
             label="Overscan columns"
             name="overscanColumnCount"
-            onChange={event =>
+            onChange={(event) =>
               this.setState({
                 overscanColumnCount: parseInt(event.target.value, 10) || 0,
               })
@@ -147,7 +147,7 @@ export default class GridExample extends React.PureComponent {
           <LabeledInput
             label="Overscan rows"
             name="overscanRowCount"
-            onChange={event =>
+            onChange={(event) =>
               this.setState({
                 overscanRowCount: parseInt(event.target.value, 10) || 0,
               })

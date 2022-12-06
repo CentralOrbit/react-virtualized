@@ -151,7 +151,7 @@ export default class CellMeasurer extends React.PureComponent<Props> {
     }
   };
 
-  _registerChild = element => {
+  _registerChild = (element) => {
     if (element && !(element instanceof Element)) {
       console.warn(
         'CellMeasurer registerChild expects to be passed Element or null',

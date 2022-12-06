@@ -1,15 +1,16 @@
+// @flow
 import clsx from 'clsx';
-import CodeMirror from 'react-codemirror';
+import CodeMirror from '@uiw/react-codemirror';
+import {javascript} from '@codemirror/lang-javascript';
+import {darcula} from '@uiw/codemirror-theme-darcula';
 import * as React from 'react';
 import {ContentBox, ContentBoxHeader} from '../ContentBox';
 import generate from './Generator';
 import styles from './Wizard.css';
 
-require('codemirror/mode/jsx/jsx');
-
 const codeMirrorOptions = {
-  mode: 'jsx',
-  theme: 'dracula',
+  theme: [darcula],
+  extensions: [javascript({jsx: true})],
 };
 
 // @TODO Clean up this class; it's pretty hacky.
@@ -33,7 +34,8 @@ export default class Wizard extends React.Component {
   }
 
   // TODO Remove this key hack once JedWatson/react-codemirror/issues/106 is fixed
-  updateState = obj => this.setState(state => ({...obj, key: state.key + 1}));
+  updateState = (obj) =>
+    this.setState((state) => ({...obj, key: state.key + 1}));
 
   render() {
     const state = this._sanitizeState();
@@ -59,12 +61,12 @@ export default class Wizard extends React.Component {
           <Option
             checked={hasMultipleRows}
             label="Will your collection have more than 1 row of data?"
-            onChange={hasMultipleRows => this.updateState({hasMultipleRows})}
+            onChange={(hasMultipleRows) => this.updateState({hasMultipleRows})}
           />
           <Option
             checked={hasMultipleColumns}
             label="Will your collection have more than 1 column of data?"
-            onChange={hasMultipleColumns =>
+            onChange={(hasMultipleColumns) =>
               this.updateState({hasMultipleColumns})
             }
           />
@@ -72,7 +74,7 @@ export default class Wizard extends React.Component {
             checked={doNotVirtualizeColumns}
             disabled={!hasMultipleColumns}
             label="Should all your columns be visible at once?"
-            onChange={doNotVirtualizeColumns =>
+            onChange={(doNotVirtualizeColumns) =>
               this.updateState({doNotVirtualizeColumns})
             }
           />
@@ -80,7 +82,7 @@ export default class Wizard extends React.Component {
             checked={nonCheckerboardPattern}
             disabled={!hasMultipleColumns || !hasMultipleRows}
             label="Is your data scattered (not in a checkerboard pattern)?"
-            onChange={nonCheckerboardPattern =>
+            onChange={(nonCheckerboardPattern) =>
               this.updateState({nonCheckerboardPattern})
             }
           />
@@ -88,7 +90,7 @@ export default class Wizard extends React.Component {
             disabled={!hasMultipleRows && !hasMultipleColumns}
             checked={collectionHasFixedHeight}
             label="Does your collection have a fixed height?"
-            onChange={collectionHasFixedHeight =>
+            onChange={(collectionHasFixedHeight) =>
               this.updateState({collectionHasFixedHeight})
             }
           />
@@ -96,7 +98,7 @@ export default class Wizard extends React.Component {
             disabled={!hasMultipleRows && !hasMultipleColumns}
             checked={collectionHasFixedWidth}
             label="Does your collection have a fixed width?"
-            onChange={collectionHasFixedWidth =>
+            onChange={(collectionHasFixedWidth) =>
               this.updateState({collectionHasFixedWidth})
             }
           />
@@ -116,7 +118,7 @@ export default class Wizard extends React.Component {
               !doNotVirtualizeColumns
             }
             label="Do you know the height of your rows ahead of time?"
-            onChange={cellsHaveKnownHeight =>
+            onChange={(cellsHaveKnownHeight) =>
               this.updateState({cellsHaveKnownHeight})
             }
           />
@@ -133,7 +135,7 @@ export default class Wizard extends React.Component {
               !doNotVirtualizeColumns
             }
             label="Do you know the width of your columns ahead of time?"
-            onChange={cellsHaveKnownWidth =>
+            onChange={(cellsHaveKnownWidth) =>
               this.updateState({cellsHaveKnownWidth})
             }
           />
@@ -145,7 +147,7 @@ export default class Wizard extends React.Component {
               !cellsHaveKnownHeight
             }
             label="Are all of your rows the same height?"
-            onChange={cellsHaveUniformHeight =>
+            onChange={(cellsHaveUniformHeight) =>
               this.updateState({cellsHaveUniformHeight})
             }
           />
@@ -157,7 +159,7 @@ export default class Wizard extends React.Component {
               !cellsHaveKnownWidth
             }
             label="Are all of your columns the same width?"
-            onChange={cellsHaveUniformWidth =>
+            onChange={(cellsHaveUniformWidth) =>
               this.updateState({cellsHaveUniformWidth})
             }
           />
@@ -165,7 +167,7 @@ export default class Wizard extends React.Component {
         <ContentBox>
           <ContentBoxHeader text="Suggested Starting Point" />
           <CodeMirror
-            options={codeMirrorOptions}
+            {...codeMirrorOptions}
             value={markup}
             key={this.state.key}
           />
@@ -223,7 +225,7 @@ function Option({checked, disabled = false, label, onChange}) {
           checked={checked}
           className={styles.Input}
           disabled={disabled}
-          onChange={event => onChange(event.target.checked)}
+          onChange={(event) => onChange(event.target.checked)}
           type="checkbox"
         />
         {label}

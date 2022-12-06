@@ -45,7 +45,7 @@ export default function createMultiSort(
   const sortBy = defaultSortBy || [];
   const sortDirection = {};
 
-  sortBy.forEach(dataKey => {
+  sortBy.forEach((dataKey) => {
     sortDirection[dataKey] =
       defaultSortDirection[dataKey] !== undefined
         ? defaultSortDirection[dataKey]
@@ -80,7 +80,7 @@ export default function createMultiSort(
 
       // Clear sortDirection object of all non-selected keys
       const sortDirectionKeys = Object.keys(sortDirection);
-      sortDirectionKeys.forEach(key => {
+      sortDirectionKeys.forEach((key) => {
         if (key !== dataKey) delete sortDirection[key];
       });
 

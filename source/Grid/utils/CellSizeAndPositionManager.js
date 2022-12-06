@@ -98,7 +98,8 @@ export default class CellSizeAndPositionManager {
     }
 
     if (index > this._lastMeasuredIndex) {
-      let lastMeasuredCellSizeAndPosition = this.getSizeAndPositionOfLastMeasuredCell();
+      let lastMeasuredCellSizeAndPosition =
+        this.getSizeAndPositionOfLastMeasuredCell();
       let offset =
         lastMeasuredCellSizeAndPosition.offset +
         lastMeasuredCellSizeAndPosition.size;
@@ -148,7 +149,8 @@ export default class CellSizeAndPositionManager {
    * As cells are measured, the estimate will be updated.
    */
   getTotalSize(): number {
-    const lastMeasuredCellSizeAndPosition = this.getSizeAndPositionOfLastMeasuredCell();
+    const lastMeasuredCellSizeAndPosition =
+      this.getSizeAndPositionOfLastMeasuredCell();
     const totalSizeOfMeasuredCells =
       lastMeasuredCellSizeAndPosition.offset +
       lastMeasuredCellSizeAndPosition.size;
@@ -297,7 +299,8 @@ export default class CellSizeAndPositionManager {
     // So make sure the offset is at least 0 or no match will be found.
     offset = Math.max(0, offset);
 
-    const lastMeasuredCellSizeAndPosition = this.getSizeAndPositionOfLastMeasuredCell();
+    const lastMeasuredCellSizeAndPosition =
+      this.getSizeAndPositionOfLastMeasuredCell();
     const lastMeasuredIndex = Math.max(0, this._lastMeasuredIndex);
 
     if (lastMeasuredCellSizeAndPosition.offset >= offset) {

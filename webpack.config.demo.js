@@ -3,6 +3,7 @@ const path = require('path');
 const webpack = require('webpack');
 
 module.exports = {
+  mode: 'production',
   devtool: 'source-map',
   entry: {
     demo: './source/demo/index',
@@ -18,9 +19,7 @@ module.exports = {
       template: './index.html',
     }),
     new webpack.DefinePlugin({
-      'process.env': {
-        NODE_ENV: JSON.stringify('production'),
-      },
+      'process.env.NODE_ENV': JSON.stringify(process.env.NODE_ENV),
     }),
   ],
   module: {
@@ -32,7 +31,16 @@ module.exports = {
       },
       {
         test: /\.css$/,
-        use: ['style-loader', 'css-loader?modules', 'postcss-loader'],
+        use: [
+          'style-loader',
+          {
+            loader: 'css-loader',
+            options: {
+              modules: true,
+            },
+          },
+          'postcss-loader',
+        ],
         include: path.join(__dirname, 'source'),
       },
       {

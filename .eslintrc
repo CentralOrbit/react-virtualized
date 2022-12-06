@@ -1,8 +1,28 @@
 {
-  "parser": "babel-eslint",
-  "plugins": ["react"],
-  "extends": ["fbjs", "eslint:recommended", "plugin:prettier/recommended"],
+  "parser": "hermes-eslint",
+  "plugins": [
+    "react",
+    "ft-flow"
+  ],
+  "extends": [
+    "eslint:recommended",
+    "plugin:react/jsx-runtime",
+    "plugin:react/recommended",
+    "plugin:ft-flow/recommended",
+    "plugin:prettier/recommended",
+    "prettier"
+  ],
+  "settings": {
+    "react": {
+      "version": "detect"
+    }
+  },
   "rules": {
-    "no-console": 0
+    "no-console": 0,
+    // These rules are not required with hermes-eslint
+    "ft-flow/define-flow-type": 0,
+    "ft-flow/use-flow-type": 0,
+    // flow handles this check for us, so it's not required
+    "no-undef": 0
   }
 }

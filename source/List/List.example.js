@@ -69,7 +69,7 @@ export default class ListExample extends React.PureComponent {
               checked={useDynamicRowHeight}
               className={styles.checkbox}
               type="checkbox"
-              onChange={event =>
+              onChange={(event) =>
                 this.setState({useDynamicRowHeight: event.target.checked})
               }
             />
@@ -82,7 +82,7 @@ export default class ListExample extends React.PureComponent {
               checked={showScrollingPlaceholder}
               className={styles.checkbox}
               type="checkbox"
-              onChange={event =>
+              onChange={(event) =>
                 this.setState({
                   showScrollingPlaceholder: event.target.checked,
                 })
@@ -109,7 +109,7 @@ export default class ListExample extends React.PureComponent {
           <LabeledInput
             label="List height"
             name="listHeight"
-            onChange={event =>
+            onChange={(event) =>
               this.setState({
                 listHeight: parseInt(event.target.value, 10) || 1,
               })
@@ -120,7 +120,7 @@ export default class ListExample extends React.PureComponent {
             disabled={useDynamicRowHeight}
             label="Row height"
             name="listRowHeight"
-            onChange={event =>
+            onChange={(event) =>
               this.setState({
                 listRowHeight: parseInt(event.target.value, 10) || 1,
               })
@@ -130,7 +130,7 @@ export default class ListExample extends React.PureComponent {
           <LabeledInput
             label="Overscan"
             name="overscanRowCount"
-            onChange={event =>
+            onChange={(event) =>
               this.setState({
                 overscanRowCount: parseInt(event.target.value, 10) || 0,
               })

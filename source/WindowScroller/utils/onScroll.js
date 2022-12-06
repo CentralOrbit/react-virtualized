@@ -1,5 +1,4 @@
 // @flow
-'no babel-plugin-flow-react-proptypes';
 
 import {
   requestAnimationTimeout,
@@ -25,7 +24,7 @@ function enablePointerEventsIfDisabled() {
 
 function enablePointerEventsAfterDelayCallback() {
   enablePointerEventsIfDisabled();
-  mountedInstances.forEach(instance => instance.__resetIsScrolling());
+  mountedInstances.forEach((instance) => instance.__resetIsScrolling());
 }
 
 function enablePointerEventsAfterDelay() {
@@ -34,7 +33,7 @@ function enablePointerEventsAfterDelay() {
   }
 
   var maximumTimeout = 0;
-  mountedInstances.forEach(instance => {
+  mountedInstances.forEach((instance) => {
     maximumTimeout = Math.max(
       maximumTimeout,
       instance.props.scrollingResetTimeInterval,
@@ -58,7 +57,7 @@ function onScrollWindow(event: Event) {
     document.body.style.pointerEvents = 'none';
   }
   enablePointerEventsAfterDelay();
-  mountedInstances.forEach(instance => {
+  mountedInstances.forEach((instance) => {
     if (instance.props.scrollElement === event.currentTarget) {
       instance.__handleWindowScrollEvent();
     }
@@ -70,7 +69,9 @@ export function registerScrollListener(
   element: Element,
 ) {
   if (
-    !mountedInstances.some(instance => instance.props.scrollElement === element)
+    !mountedInstances.some(
+      (instance) => instance.props.scrollElement === element,
+    )
   ) {
     element.addEventListener('scroll', onScrollWindow);
   }
@@ -82,7 +83,7 @@ export function unregisterScrollListener(
   element: Element,
 ) {
   mountedInstances = mountedInstances.filter(
-    instance => instance !== component,
+    (instance) => instance !== component,
   );
   if (!mountedInstances.length) {
     element.removeEventListener('scroll', onScrollWindow);

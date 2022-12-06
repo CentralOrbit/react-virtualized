@@ -48,9 +48,8 @@ export default function defaultCellRangeRenderer({
       columnIndex <= columnStopIndex;
       columnIndex++
     ) {
-      let columnDatum = columnSizeAndPositionManager.getSizeAndPositionOfCell(
-        columnIndex,
-      );
+      let columnDatum =
+        columnSizeAndPositionManager.getSizeAndPositionOfCell(columnIndex);
       let isVisible =
         columnIndex >= visibleColumnIndices.start &&
         columnIndex <= visibleColumnIndices.stop &&

@@ -48,12 +48,12 @@ describe('List', () => {
   describe('number of rendered children', () => {
     it('should render enough children to fill the view', () => {
       const rendered = findDOMNode(render(getMarkup()));
-      expect(rendered.querySelectorAll('.listItem').length).toEqual(10);
+      expect(container.querySelectorAll('.listItem').length).toEqual(10);
     });
 
     it('should not render more children than available if the list is not filled', () => {
       const rendered = findDOMNode(render(getMarkup({rowCount: 5})));
-      expect(rendered.querySelectorAll('.listItem').length).toEqual(5);
+      expect(container.querySelectorAll('.listItem').length).toEqual(5);
     });
   });
 
@@ -95,14 +95,11 @@ describe('List', () => {
     });
 
     it('should scroll to the correct position for :scrollToAlignment "start"', () => {
-      const rendered = findDOMNode(
-        render(
+      let { container } = render(
           getMarkup({
             scrollToAlignment: 'start',
             scrollToIndex: 49,
-          }),
-        ),
-      );
+          }));
       // 100 items * 10 item height = 1,000 total item height; 10 items can be visible at a time.
       expect(rendered.textContent).toContain('Name 49');
       expect(rendered.textContent).toContain('Name 58');
@@ -114,14 +111,11 @@ describe('List', () => {
           scrollToIndex: 99,
         }),
       );
-      const rendered = findDOMNode(
-        render(
+      let { container } = render(
           getMarkup({
             scrollToAlignment: 'end',
             scrollToIndex: 49,
-          }),
-        ),
-      );
+          }));
       // 100 items * 10 item height = 1,000 total item height; 10 items can be visible at a time.
       expect(rendered.textContent).toContain('Name 40');
       expect(rendered.textContent).toContain('Name 49');
@@ -133,14 +127,11 @@ describe('List', () => {
           scrollToIndex: 99,
         }),
       );
-      const rendered = findDOMNode(
-        render(
+      let { container } = render(
           getMarkup({
             scrollToAlignment: 'center',
             scrollToIndex: 49,
-          }),
-        ),
-      );
+          }));
       // 100 items * 10 item height = 1,000 total item height; 11 items can be visible at a time (the first and last item are only partially visible)
       expect(rendered.textContent).toContain('Name 44');
       expect(rendered.textContent).toContain('Name 54');
@@ -178,8 +169,7 @@ describe('List', () => {
     it('should update scroll position if size shrinks smaller than the current scroll', () => {
       findDOMNode(render(getMarkup({scrollToIndex: 500})));
       findDOMNode(render(getMarkup()));
-      const rendered = findDOMNode(
-        render(getMarkup({scrollToIndex: 500, rowCount: 10})),
+      let { container } = render(getMarkup({scrollToIndex: 500, rowCount: 10})),
       );
       expect(rendered.textContent).toContain('Name 9');
     });
@@ -192,9 +182,7 @@ describe('List', () => {
           getMarkup({
             noRowsRenderer: () => <div>No rows!</div>,
             rowCount: 0,
-          }),
-        ),
-      );
+          }));
       expect(rendered.textContent).toEqual('No rows!');
     });
 
@@ -203,9 +191,7 @@ describe('List', () => {
         render(
           getMarkup({
             rowCount: 0,
-          }),
-        ),
-      );
+          }));
       expect(rendered.textContent).toEqual('');
     });
   });
@@ -215,7 +201,7 @@ describe('List', () => {
       let startIndex, stopIndex;
       render(
         getMarkup({
-          onRowsRendered: params => ({startIndex, stopIndex} = params),
+          onRowsRendered: (params) => ({startIndex, stopIndex} = params),
         }),
       );
       expect(startIndex).toEqual(0);
@@ -226,7 +212,7 @@ describe('List', () => {
       let numCalls = 0;
       let startIndex;
       let stopIndex;
-      const onRowsRendered = params => {
+      const onRowsRendered = (params) => {
         startIndex = params.startIndex;
         stopIndex = params.stopIndex;
         numCalls++;
@@ -245,7 +231,7 @@ describe('List', () => {
       let numCalls = 0;
       let startIndex;
       let stopIndex;
-      const onRowsRendered = params => {
+      const onRowsRendered = (params) => {
         startIndex = params.startIndex;
         stopIndex = params.stopIndex;
         numCalls++;
@@ -259,9 +245,7 @@ describe('List', () => {
           getMarkup({
             height: 50,
             onRowsRendered,
-          }),
-        ),
-      );
+          }));
       expect(numCalls).toEqual(2);
       expect(startIndex).toEqual(0);
       expect(stopIndex).toEqual(4);
@@ -272,7 +256,7 @@ describe('List', () => {
       render(
         getMarkup({
           height: 0,
-          onRowsRendered: params => ({startIndex, stopIndex} = params),
+          onRowsRendered: (params) => ({startIndex, stopIndex} = params),
         }),
       );
       expect(startIndex).toEqual(undefined);
@@ -285,7 +269,7 @@ describe('List', () => {
       let startIndex, stopIndex;
       render(
         getMarkup({
-          onRowsRendered: params => ({startIndex, stopIndex} = params),
+          onRowsRendered: (params) => ({startIndex, stopIndex} = params),
           scrollTop: 100,
         }),
       );
@@ -299,21 +283,17 @@ describe('List', () => {
       findDOMNode(
         render(
           getMarkup({
-            onRowsRendered: params => ({startIndex, stopIndex} = params),
-          }),
-        ),
-      );
+            onRowsRendered: (params) => ({startIndex, stopIndex} = params),
+          }));
       expect(startIndex).toEqual(0);
       expect(stopIndex).toEqual(9);
 
       findDOMNode(
         render(
           getMarkup({
-            onRowsRendered: params => ({startIndex, stopIndex} = params),
+            onRowsRendered: (params) => ({startIndex, stopIndex} = params),
             scrollTop: 100,
-          }),
-        ),
-      );
+          }));
       expect(startIndex).toEqual(10);
       expect(stopIndex).toEqual(19);
     });
@@ -382,7 +362,7 @@ describe('List', () => {
       const onScrollCalls = [];
       render(
         getMarkup({
-          onScroll: params => onScrollCalls.push(params),
+          onScroll: (params) => onScrollCalls.push(params),
         }),
       );
       expect(onScrollCalls).toEqual([
@@ -398,7 +378,7 @@ describe('List', () => {
       const onScrollCalls = [];
       const rendered = render(
         getMarkup({
-          onScroll: params => onScrollCalls.push(params),
+          onScroll: (params) => onScrollCalls.push(params),
         }),
       );
       const target = {
@@ -492,13 +472,10 @@ describe('List', () => {
     });
 
     it('should allow tabIndex to be overridden', () => {
-      const rendered = findDOMNode(
-        render(
+      let { container } = render(
           getMarkup({
             tabIndex: -1,
-          }),
-        ),
-      );
+          }));
       expect(rendered.tabIndex).toEqual(-1);
     });
   });

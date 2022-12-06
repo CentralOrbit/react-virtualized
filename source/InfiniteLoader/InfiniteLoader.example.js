@@ -38,7 +38,7 @@ export default class InfiniteLoaderExample extends React.PureComponent {
   }
 
   componentWillUnmount() {
-    Object.keys(this._timeoutIdMap).forEach(timeoutId => {
+    Object.keys(this._timeoutIdMap).forEach((timeoutId) => {
       clearTimeout(timeoutId);
     });
   }
@@ -144,7 +144,7 @@ export default class InfiniteLoaderExample extends React.PureComponent {
 
     let promiseResolver;
 
-    return new Promise(resolve => {
+    return new Promise((resolve) => {
       promiseResolver = resolve;
     });
   }

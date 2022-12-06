@@ -204,7 +204,7 @@ function defaultCellGroupRenderer({
   isScrolling,
 }) {
   return indices
-    .map(index => {
+    .map((index) => {
       const cellMetadata = cellSizeAndPositionGetter({index});
 
       let cellRendererProps = {
@@ -234,5 +234,5 @@ function defaultCellGroupRenderer({
         return cellRenderer(cellRendererProps);
       }
     })
-    .filter(renderedCell => !!renderedCell);
+    .filter((renderedCell) => !!renderedCell);
 }

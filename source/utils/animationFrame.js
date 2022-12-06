@@ -22,7 +22,7 @@ const request =
   win.mozRequestAnimationFrame ||
   win.oRequestAnimationFrame ||
   win.msRequestAnimationFrame ||
-  function(callback: Callback): RequestAnimationFrame {
+  function (callback: Callback): RequestAnimationFrame {
     return (win: any).setTimeout(callback, 1000 / 60);
   };
 
@@ -32,7 +32,7 @@ const cancel =
   win.mozCancelAnimationFrame ||
   win.oCancelAnimationFrame ||
   win.msCancelAnimationFrame ||
-  function(id: number) {
+  function (id: number) {
     (win: any).clearTimeout(id);
   };
 

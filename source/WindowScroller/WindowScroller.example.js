@@ -95,7 +95,7 @@ export default class WindowScrollerExample extends React.PureComponent<
                 {({width}) => (
                   <div ref={registerChild}>
                     <List
-                      ref={el => {
+                      ref={(el) => {
                         window.listEl = el;
                       }}
                       autoHeight
@@ -151,15 +151,15 @@ export default class WindowScrollerExample extends React.PureComponent<
     );
   };
 
-  _setRef = windowScroller => {
+  _setRef = (windowScroller) => {
     this._windowScroller = windowScroller;
   };
 
-  _onCheckboxChange = event => {
+  _onCheckboxChange = (event) => {
     this.context.setScrollingCustomElement(event.target.checked);
   };
 
-  _onScrollToRowChange = event => {
+  _onScrollToRowChange = (event) => {
     const {list} = this.context;
     let scrollToIndex = Math.min(
       list.size - 1,

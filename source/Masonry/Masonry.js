@@ -404,11 +404,11 @@ class Masonry extends React.PureComponent<Props, State> {
     }
   }
 
-  _setScrollingContainerRef = ref => {
+  _setScrollingContainerRef = (ref) => {
     this._scrollingContainer = ref;
   };
 
-  _onScroll = event => {
+  _onScroll = (event) => {
     const {height} = this.props;
 
     const eventScrollTop = event.currentTarget.scrollTop;

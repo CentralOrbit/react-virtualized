@@ -48,7 +48,7 @@ export default class AutoSizerExample extends React.PureComponent<{}, State> {
               className={styles.checkbox}
               type="checkbox"
               checked={hideDescription}
-              onChange={event =>
+              onChange={(event) =>
                 this.setState({hideDescription: event.target.checked})
               }
             />
@@ -63,7 +63,8 @@ export default class AutoSizerExample extends React.PureComponent<{}, State> {
             It uses Sebastian Decima's{' '}
             <a
               href="https://github.com/sdecima/javascript-detect-element-resize"
-              target="_blank">
+              target="_blank"
+              rel="noreferrer">
               element resize event
             </a>{' '}
             to determine the appropriate size. In this example{' '}

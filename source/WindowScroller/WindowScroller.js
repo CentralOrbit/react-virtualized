@@ -187,7 +187,7 @@ export default class WindowScroller extends React.PureComponent<Props, State> {
     });
   }
 
-  _registerChild = element => {
+  _registerChild = (element) => {
     if (element && !(element instanceof Element)) {
       console.warn(
         'WindowScroller registerChild expects to be passed Element or null',
@@ -212,7 +212,7 @@ export default class WindowScroller extends React.PureComponent<Props, State> {
     }
   };
 
-  _registerResizeListener = element => {
+  _registerResizeListener = (element) => {
     if (element === window) {
       window.addEventListener('resize', this._onResize, false);
     } else {
@@ -220,7 +220,7 @@ export default class WindowScroller extends React.PureComponent<Props, State> {
     }
   };
 
-  _unregisterResizeListener = element => {
+  _unregisterResizeListener = (element) => {
     if (element === window) {
       window.removeEventListener('resize', this._onResize, false);
     } else if (element) {

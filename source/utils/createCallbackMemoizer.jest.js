@@ -14,7 +14,7 @@ describe('createCallbackMemoizer', () => {
       overscanStopIndex: () => overscanStopIndex,
       startIndex: () => startIndex,
       stopIndex: () => stopIndex,
-      update: params => {
+      update: (params) => {
         overscanStartIndex = params.overscanStartIndex;
         overscanStopIndex = params.overscanStopIndex;
         startIndex = params.startIndex;
@@ -169,7 +169,7 @@ describe('createCallbackMemoizer', () => {
   it('should support an array of indices', () => {
     let numCalls = 0;
     let indices;
-    const callback = params => {
+    const callback = (params) => {
       indices = params;
       numCalls++;
     };
@@ -191,7 +191,7 @@ describe('createCallbackMemoizer', () => {
   it('should support an attribute containing an array of indices', () => {
     let numCalls = 0;
     let indices;
-    const callback = params => {
+    const callback = (params) => {
       indices = params.indices;
       numCalls++;
     };

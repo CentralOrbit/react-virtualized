@@ -32,7 +32,7 @@ export default class Table extends React.PureComponent {
     autoHeight: PropTypes.bool,
 
     /** One or more Columns describing the data displayed in this row */
-    children: props => {
+    children: (props) => {
       const children = React.Children.toArray(props.children);
       for (let i = 0; i < children.length; i++) {
         const childType = children[i].type;
@@ -401,7 +401,7 @@ export default class Table extends React.PureComponent {
 
     // Note that we specify :rowCount, :scrollbarWidth, :sortBy, and :sortDirection as properties on Grid even though these have nothing to do with Grid.
     // This is done because Grid is a pure component and won't update unless its properties or state has changed.
-    // Any property that should trigger a re-render of Grid then is specified here to avoid a stale display.
+    // Any property that should trigger a re-rendered of Grid then is specified here to avoid a stale display.
     return (
       <div
         aria-label={this.props['aria-label']}
@@ -453,14 +453,8 @@ export default class Table extends React.PureComponent {
 
   _createColumn({column, columnIndex, isScrolling, parent, rowData, rowIndex}) {
     const {onColumnClick} = this.props;
-    const {
-      cellDataGetter,
-      cellRenderer,
-      className,
-      columnData,
-      dataKey,
-      id,
-    } = column.props;
+    const {cellDataGetter, cellRenderer, className, columnData, dataKey, id} =
+      column.props;
 
     const cellData = cellDataGetter({columnData, dataKey, rowData});
     const renderedCell = cellRenderer({
@@ -474,7 +468,7 @@ export default class Table extends React.PureComponent {
       rowIndex,
     });
 
-    const onClick = event => {
+    const onClick = (event) => {
       onColumnClick && onColumnClick({columnData, dataKey, event});
     };
 
@@ -560,7 +554,7 @@ export default class Table extends React.PureComponent {
         ? SortDirection.ASC
         : SortDirection.DESC;
 
-      const onClick = event => {
+      const onClick = (event) => {
         sortEnabled &&
           sort({
             defaultSortDirection,
@@ -571,7 +565,7 @@ export default class Table extends React.PureComponent {
         onHeaderClick && onHeaderClick({columnData, dataKey, event});
       };
 
-      const onKeyDown = event => {
+      const onKeyDown = (event) => {
         if (event.key === 'Enter' || event.key === ' ') {
           onClick(event);
         }

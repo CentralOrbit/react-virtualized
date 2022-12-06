@@ -38,19 +38,16 @@ export default class CollectionExample extends React.PureComponent {
     this._columnYMap = [];
 
     this._cellRenderer = this._cellRenderer.bind(this);
-    this._cellSizeAndPositionGetter = this._cellSizeAndPositionGetter.bind(
-      this,
-    );
+    this._cellSizeAndPositionGetter =
+      this._cellSizeAndPositionGetter.bind(this);
     this._noContentRenderer = this._noContentRenderer.bind(this);
     this._onCellCountChange = this._onCellCountChange.bind(this);
     this._onHeightChange = this._onHeightChange.bind(this);
-    this._onHorizontalOverscanSizeChange = this._onHorizontalOverscanSizeChange.bind(
-      this,
-    );
+    this._onHorizontalOverscanSizeChange =
+      this._onHorizontalOverscanSizeChange.bind(this);
     this._onScrollToCellChange = this._onScrollToCellChange.bind(this);
-    this._onVerticalOverscanSizeChange = this._onVerticalOverscanSizeChange.bind(
-      this,
-    );
+    this._onVerticalOverscanSizeChange =
+      this._onVerticalOverscanSizeChange.bind(this);
   }
 
   render() {
@@ -84,7 +81,7 @@ export default class CollectionExample extends React.PureComponent {
               checked={showScrollingPlaceholder}
               className={styles.checkbox}
               type="checkbox"
-              onChange={event =>
+              onChange={(event) =>
                 this.setState({
                   showScrollingPlaceholder: event.target.checked,
                 })

@@ -37,15 +37,12 @@ describe('MultiGrid', () => {
 
   describe('fixed columns and rows', () => {
     it('should render 4 Grids when configured for fixed columns and rows', () => {
-      const rendered = findDOMNode(
-        render(
+      let { container } = render(
           getMarkup({
             fixedColumnCount: 1,
             fixedRowCount: 1,
-          }),
-        ),
-      );
-      const grids = rendered.querySelectorAll('.ReactVirtualized__Grid');
+          }));
+      const grids = container.querySelectorAll('.ReactVirtualized__Grid');
       expect(grids.length).toEqual(4);
       const [topLeft, topRight, bottomLeft, bottomRight] = grids;
       expect(topLeft.style.getPropertyValue('overflow-x')).toEqual('hidden');
@@ -59,15 +56,12 @@ describe('MultiGrid', () => {
     });
 
     it('should render 2 Grids when configured for fixed columns only', () => {
-      const rendered = findDOMNode(
-        render(
+      let { container } = render(
           getMarkup({
             fixedColumnCount: 1,
             fixedRowCount: 0,
-          }),
-        ),
-      );
-      const grids = rendered.querySelectorAll('.ReactVirtualized__Grid');
+          }));
+      const grids = container.querySelectorAll('.ReactVirtualized__Grid');
       expect(grids.length).toEqual(2);
       const [bottomLeft, bottomRight] = grids;
       expect(bottomLeft.style.getPropertyValue('overflow-x')).toEqual('hidden');
@@ -77,15 +71,12 @@ describe('MultiGrid', () => {
     });
 
     it('should render 2 Grids when configured for fixed rows only', () => {
-      const rendered = findDOMNode(
-        render(
+      let { container } = render(
           getMarkup({
             fixedColumnCount: 0,
             fixedRowCount: 1,
-          }),
-        ),
-      );
-      const grids = rendered.querySelectorAll('.ReactVirtualized__Grid');
+          }));
+      const grids = container.querySelectorAll('.ReactVirtualized__Grid');
       expect(grids.length).toEqual(2);
       const [topRight, bottomRight] = grids;
       expect(topRight.style.getPropertyValue('overflow-x')).toEqual('hidden');
@@ -95,15 +86,12 @@ describe('MultiGrid', () => {
     });
 
     it('should render 1 Grid when configured for neither fixed columns and rows', () => {
-      const rendered = findDOMNode(
-        render(
+      let { container } = render(
           getMarkup({
             fixedColumnCount: 0,
             fixedRowCount: 0,
-          }),
-        ),
-      );
-      const grids = rendered.querySelectorAll('.ReactVirtualized__Grid');
+          }));
+      const grids = container.querySelectorAll('.ReactVirtualized__Grid');
       expect(grids.length).toEqual(1);
       const [bottomRight] = grids;
       expect(bottomRight.style.getPropertyValue('overflow-x')).toEqual('auto');
@@ -116,48 +104,39 @@ describe('MultiGrid', () => {
           getMarkup({
             fixedColumnCount: 2,
             fixedRowCount: 1,
-          }),
-        ),
-      );
+          }));
       expect(
-        rendered.querySelectorAll('.ReactVirtualized__Grid').length,
+        container.querySelectorAll('.ReactVirtualized__Grid').length,
       ).toEqual(4);
       rendered = findDOMNode(
         render(
           getMarkup({
             fixedColumnCount: 0,
             fixedRowCount: 0,
-          }),
-        ),
-      );
+          }));
       expect(
-        rendered.querySelectorAll('.ReactVirtualized__Grid').length,
+        container.querySelectorAll('.ReactVirtualized__Grid').length,
       ).toEqual(1);
       rendered = findDOMNode(
         render(
           getMarkup({
             fixedColumnCount: 0,
             fixedRowCount: 2,
-          }),
-        ),
-      );
+          }));
       expect(
-        rendered.querySelectorAll('.ReactVirtualized__Grid').length,
+        container.querySelectorAll('.ReactVirtualized__Grid').length,
       ).toEqual(2);
     });
 
     it('should allow scrolling of fixed Grids when configured for fixed columns and rows with scroll interaction', () => {
-      const rendered = findDOMNode(
-        render(
+      let { container } = render(
           getMarkup({
             enableFixedColumnScroll: true,
             enableFixedRowScroll: true,
             fixedColumnCount: 1,
             fixedRowCount: 1,
-          }),
-        ),
-      );
-      const grids = rendered.querySelectorAll('.ReactVirtualized__Grid');
+          }));
+      const grids = container.querySelectorAll('.ReactVirtualized__Grid');
       expect(grids.length).toEqual(4);
       const [topLeft, topRight, bottomLeft, bottomRight] = grids;
       expect(topLeft.style.getPropertyValue('overflow-x')).toEqual('hidden');
@@ -176,8 +155,7 @@ describe('MultiGrid', () => {
       return 20;
     }
     it('should add scroll wrappers to hide scroll bar when configured for fixed columns and rows with scroll interaction', () => {
-      const rendered = findDOMNode(
-        render(
+      let { container } = render(
           getMarkup({
             enableFixedColumnScroll: true,
             enableFixedRowScroll: true,
@@ -186,13 +164,11 @@ describe('MultiGrid', () => {
             hideTopRightGridScrollbar: true,
             hideBottomLeftGridScrollbar: true,
             getScrollbarSize: getScrollbarSize20,
-          }),
-        ),
-      );
-      let wrappers = rendered.querySelectorAll('.TopRightGrid_ScrollWrapper');
+          }));
+      let wrappers = container.querySelectorAll('.TopRightGrid_ScrollWrapper');
       expect(wrappers.length).toEqual(1);
       const [topRightWrapper] = wrappers;
-      wrappers = rendered.querySelectorAll('.BottomLeftGrid_ScrollWrapper');
+      wrappers = container.querySelectorAll('.BottomLeftGrid_ScrollWrapper');
       expect(wrappers.length).toEqual(1);
       const [bottomLeftWrapper] = wrappers;
 
@@ -216,7 +192,7 @@ describe('MultiGrid', () => {
       expect(topRightWrapper.style.getPropertyValue('width')).toEqual('350px');
       expect(bottomLeftWrapper.style.getPropertyValue('width')).toEqual('50px');
 
-      const grids = rendered.querySelectorAll('.ReactVirtualized__Grid');
+      const grids = container.querySelectorAll('.ReactVirtualized__Grid');
       expect(grids.length).toEqual(4);
       const [topLeft, topRight, bottomLeft, bottomRight] = grids;
       expect(topLeft.style.getPropertyValue('overflow-x')).toEqual('hidden');
@@ -258,14 +234,12 @@ describe('MultiGrid', () => {
             fixedRowCount: 1,
             rowHeight: variableRowHeight,
             columnWidth: variableColumnWidth,
-            ref: ref => {
+            ref: (ref) => {
               multiGrid = ref;
             },
-          }),
-        ),
-      );
+          }));
 
-      let grids = rendered.querySelectorAll('.ReactVirtualized__Grid');
+      let grids = container.querySelectorAll('.ReactVirtualized__Grid');
       expect(grids.length).toEqual(4);
       let [topLeft, topRight, bottomLeft, bottomRight] = grids;
       expect(topLeft.style.getPropertyValue('height')).toEqual('75px');
@@ -289,14 +263,10 @@ describe('MultiGrid', () => {
 
       multiGrid.forceUpdate();
 
-      let gridsAfter = rendered.querySelectorAll('.ReactVirtualized__Grid');
+      let gridsAfter = container.querySelectorAll('.ReactVirtualized__Grid');
       expect(gridsAfter.length).toEqual(4);
-      let [
-        topLeftAfter,
-        topRightAfter,
-        bottomLeftAfter,
-        bottomRightAfter,
-      ] = gridsAfter;
+      let [topLeftAfter, topRightAfter, bottomLeftAfter, bottomRightAfter] =
+        gridsAfter;
       expect(topLeftAfter.style.getPropertyValue('height')).toEqual('125px');
       expect(topRightAfter.style.getPropertyValue('height')).toEqual('125px');
       expect(bottomLeftAfter.style.getPropertyValue('height')).toEqual('175px');
@@ -313,35 +283,29 @@ describe('MultiGrid', () => {
 
   describe('scrollToColumn and scrollToRow', () => {
     it('should adjust :scrollLeft for the main Grid when scrollToColumn is used', () => {
-      const rendered = findDOMNode(
-        render(
+      let { container } = render(
           getMarkup({
             columnWidth: 50,
             fixedColumnCount: 2,
             scrollToAlignment: 'start',
             scrollToColumn: 19,
-          }),
-        ),
-      );
+          }));
       // Bottom-right Grid is the last Grid
-      const grid = rendered.querySelectorAll('.ReactVirtualized__Grid')[3];
+      const grid = container.querySelectorAll('.ReactVirtualized__Grid')[3];
       // 20th column, less 2 for the fixed-column Grid, 50px column width
       expect(grid.scrollLeft).toEqual(850);
     });
 
     it('should adjust :scrollTop for the main Grid when scrollToRow is used', () => {
-      const rendered = findDOMNode(
-        render(
+      let { container } = render(
           getMarkup({
             fixedRowCount: 1,
             rowHeight: 50,
             scrollToAlignment: 'start',
             scrollToRow: 19,
-          }),
-        ),
-      );
+          }));
       // Bottom-right Grid is the last Grid
-      const grid = rendered.querySelectorAll('.ReactVirtualized__Grid')[3];
+      const grid = container.querySelectorAll('.ReactVirtualized__Grid')[3];
       // 20th row, less 1 for the fixed-row Grid, 50px row width
       expect(grid.scrollTop).toEqual(900);
     });
@@ -421,19 +385,15 @@ describe('MultiGrid', () => {
 
   describe('styles', () => {
     it('should support custom style for the outer MultiGrid wrapper element', () => {
-      const rendered = findDOMNode(
-        render(
+      let { container } = render(
           getMarkup({
             style: {backgroundColor: 'black'},
-          }),
-        ),
-      );
+          }));
       expect(rendered.style.backgroundColor).toEqual('black');
     });
 
     it('should support custom styles for each Grid', () => {
-      const rendered = findDOMNode(
-        render(
+      let { container } = render(
           getMarkup({
             fixedColumnCount: 2,
             fixedRowCount: 1,
@@ -441,10 +401,8 @@ describe('MultiGrid', () => {
             styleBottomRightGrid: {backgroundColor: 'red'},
             styleTopLeftGrid: {backgroundColor: 'blue'},
             styleTopRightGrid: {backgroundColor: 'purple'},
-          }),
-        ),
-      );
-      const grids = rendered.querySelectorAll('.ReactVirtualized__Grid');
+          }));
+      const grids = container.querySelectorAll('.ReactVirtualized__Grid');
       const topLeftGrid = grids[0];
       const topRightGrid = grids[1];
       const bottomLeftGrid = grids[2];
@@ -457,16 +415,13 @@ describe('MultiGrid', () => {
   });
   describe('scrollTop and scrollLeft', () => {
     it('should adjust :scrollLeft for top-right and main grids when scrollLeft is used', () => {
-      const rendered = findDOMNode(
-        render(
+      let { container } = render(
           getMarkup({
             columnWidth: 50,
             fixedColumnCount: 2,
             scrollLeft: 850,
-          }),
-        ),
-      );
-      const grids = rendered.querySelectorAll('.ReactVirtualized__Grid');
+          }));
+      const grids = container.querySelectorAll('.ReactVirtualized__Grid');
       const topRightGrid = grids[1];
       const bottomRightGrid = grids[3];
       expect(topRightGrid.scrollLeft).toEqual(850);
@@ -474,16 +429,13 @@ describe('MultiGrid', () => {
     });
 
     it('should adjust :scrollTop for bottom-left and main grids when scrollTop is used', () => {
-      const rendered = findDOMNode(
-        render(
+      let { container } = render(
           getMarkup({
             columnWidth: 50,
             fixedColumnCount: 2,
             scrollTop: 500,
-          }),
-        ),
-      );
-      const grids = rendered.querySelectorAll('.ReactVirtualized__Grid');
+          }));
+      const grids = container.querySelectorAll('.ReactVirtualized__Grid');
       const bottomLeftGrid = grids[2];
       const bottomRightGrid = grids[3];
       expect(bottomLeftGrid.scrollTop).toEqual(500);
@@ -492,15 +444,12 @@ describe('MultiGrid', () => {
 
     it('should adjust :scrollTop and :scrollLeft when scrollTop and scrollLeft change', () => {
       render(getMarkup());
-      const rendered = findDOMNode(
-        render(
+      let { container } = render(
           getMarkup({
             scrollTop: 750,
             scrollLeft: 900,
-          }),
-        ),
-      );
-      const grids = rendered.querySelectorAll('.ReactVirtualized__Grid');
+          }));
+      const grids = container.querySelectorAll('.ReactVirtualized__Grid');
       const topRightGrid = grids[1];
       const bottomLeftGrid = grids[2];
       const bottomRightGrid = grids[3];

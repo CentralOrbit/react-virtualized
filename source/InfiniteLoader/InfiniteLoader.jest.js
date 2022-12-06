@@ -76,21 +76,7 @@ describe('InfiniteLoader', () => {
   it('should call :isRowLoaded for all rows within the threshold each time a range of rows are rendered', () => {
     render(getMarkup());
     expect(isRowLoadedCalls).toEqual([
-      0,
-      1,
-      2,
-      3,
-      4,
-      5,
-      6,
-      7,
-      8,
-      9,
-      10,
-      11,
-      12,
-      13,
-      14,
+      0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14,
     ]);
   });
 
@@ -109,10 +95,10 @@ describe('InfiniteLoader', () => {
     expect(loadMoreRowsCalls).toEqual([{startIndex: 0, stopIndex: 9}]);
   });
 
-  it('should :forceUpdate once rows have loaded if :loadMoreRows returns a Promise', async done => {
+  it('should :forceUpdate once rows have loaded if :loadMoreRows returns a Promise', async (done) => {
     let savedResolve;
     function loadMoreRows() {
-      return new Promise(resolve => {
+      return new Promise((resolve) => {
         savedResolve = resolve;
       });
     }
@@ -123,10 +109,10 @@ describe('InfiniteLoader', () => {
     done();
   });
 
-  it('should not :forceUpdate once rows have loaded rows are no longer visible', async done => {
+  it('should not :forceUpdate once rows have loaded rows are no longer visible', async (done) => {
     let resolves = [];
     function loadMoreRows() {
-      return new Promise(resolve => {
+      return new Promise((resolve) => {
         resolves.push(resolve);
       });
     }
