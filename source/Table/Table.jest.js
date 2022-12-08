@@ -1,7 +1,3 @@
-import * as React from 'react';
-import {unmountComponentAtNode} from 'react-dom';
-import {render, fireEvent} from '@testing-library/react';
-import '@testing-library/jest-dom';
 import {Simulate} from 'react-dom/test-utils';
 import Immutable from 'immutable';
 import Column from './Column';
@@ -94,19 +90,6 @@ describe('Table', () => {
       </Table>
     );
   }
-
-  let container = null;
-  beforeEach(() => {
-    container = document.createElement('div');
-    document.body.appendChild(container);
-    jest.resetModules();
-  });
-
-  afterEach(() => {
-    unmountComponentAtNode(container);
-    container.remove();
-    container = null;
-  });
 
   describe('children', () => {
     it('should accept Column children', () => {

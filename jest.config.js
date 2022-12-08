@@ -1,7 +1,6 @@
 module.exports = {
-  globalSetup: 'jest-environment-puppeteer/setup',
-  globalTeardown: 'jest-environment-puppeteer/teardown',
-  setupFiles: ['./source/jest-setup.js'],
+  moduleDirectories: ['node_modules', __dirname],
+  setupFilesAfterEnv: ['./source/test-utils.js'],
   roots: ['./source'],
   coverageReporters: ['lcov'],
   collectCoverageFrom: [
@@ -9,10 +8,9 @@ module.exports = {
     '!source/vendor/**',
     '!source/demo/**',
     '!source/jest-*.js',
-    '!source/TestUtils.js',
     '!**/*.example.js',
   ],
-  testRegex: '.(jest|e2e|ssr).js$',
+  testRegex: '\\.(jest|e2e|ssr).js$',
   verbose: true,
-  testEnvironment: "jest-environment-jsdom"
+  testEnvironment: 'jest-environment-jsdom',
 };
