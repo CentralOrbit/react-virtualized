@@ -1,5 +1,5 @@
 import '@testing-library/jest-dom';
-import {cleanup, waitFor} from '@testing-library/react';
+import {cleanup, waitFor, act} from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 
 beforeEach(() => {
@@ -13,4 +13,4 @@ jest.mock('dom-helpers/scrollbarSize', () => {
 });
 
 export * from '@testing-library/react';
-export {userEvent, waitFor};
+export {userEvent, waitFor, act};

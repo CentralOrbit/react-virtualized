@@ -33,7 +33,7 @@ type Props = {
 
 type State = {
   currentTarget: RowCol,
-  previousTarget: RowCol,
+  // previousTarget: RowCol,
   colIndexes: [number, number],
   rowIndexes: [number, number],
 };
@@ -44,10 +44,8 @@ const ArrowKeyStepper = (props: Props) => {
       row: 0,
       col: 0,
     },
-    previousTarget: {
-      col: 0,
-      row: 0,
-    },
+    rowCount: 0,
+    columnCount: 0,
     colIndexes: [0, 0],
     rowIndexes: [0, 0],
   });
@@ -91,27 +89,28 @@ const ArrowKeyStepper = (props: Props) => {
     }
 
     const {row, col} = state.currentTarget;
+    const {rowIndexes, colIndexes} = state;
 
     const lookup = {
       cells: {
-        ArrowDown: () => Math.min(scrollToRow + 1, rowCount - 1),
-        ArrowLeft: () => Math.max(scrollToColumn - 1, 0),
-        ArrowRight: () => Math.min(scrollToColumn + 1, columnCount - 1),
-        ArrowUp: () => Math.max(scrollToRow - 1, 0),
+        ArrowDown: () => Math.min(row + 1, rowCount - 1),
+        ArrowLeft: () => Math.max(col - 1, 0),
+        ArrowRight: () => Math.min(col + 1, columnCount - 1),
+        ArrowUp: () => Math.max(row - 1, 0),
       },
       edges: {
-        ArrowDown: () => Math.min(this._rowStopIndex + 1, rowCount - 1),
-        ArrowLeft: () => Math.max(this._columnStartIndex - 1, 0),
-        ArrowRight: () => Math.min(this._columnStopIndex + 1, columnCount - 1),
-        ArrowUp: () => Math.max(this._rowStartIndex - 1, 0),
+        ArrowDown: () => Math.min(rowIndexes[1] + 1, rowCount - 1),
+        ArrowLeft: () => Math.max(colIndexes[0] - 1, 0),
+        ArrowRight: () => Math.min(colIndexes[1] + 1, columnCount - 1),
+        ArrowUp: () => Math.max(rowIndexes[0] - 1, 0),
       },
     };
     let candidateTarget = {};
     if (key === 'ArrowLeft' || key === 'ArrowRight') {
-      candidateTarget.col = lookup[mode][key];
+      candidateTarget.col = lookup[mode][key]();
     }
     if (key === 'ArrowUp' || key === 'ArrowDown') {
-      candidateTarget.row = lookup[mode][key];
+      candidateTarget.row = lookup[mode][key]();
     }
 
     if (candidateTarget.row !== row || candidateTarget.col !== col) {
@@ -125,20 +124,28 @@ const ArrowKeyStepper = (props: Props) => {
         onScrollToChange(nextTarget);
       }
       setState({
+        ...state,
         currentTarget: nextTarget,
-        previousTarget: state.currentTarget,
       });
     }
+  }
+
+  function thisIsBadDontDoThis(hackedState) {
+    setState({
+      ...state, // This will probably be stale
+      ...hackedState,
+    });
   }
 
   const {col, row} = state.currentTarget;
   return (
     <div
-      role={props.role || 'arrow-stepper'}
+      role={props.role}
       className={props.className}
+      tabIndex={-1}
       onKeyDown={onKeyDown}>
       {props.children({
-        onSectionRendered: props.onSectionRendered,
+        hackStateAndGiveCancer: thisIsBadDontDoThis,
         col,
         row,
       })}
